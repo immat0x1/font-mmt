@@ -93,12 +93,12 @@ cp -ar $mpf/$r.ttf $MODPATH$1/$line; done; fi
 [ -f $mpf/$s$it.ttf ] && find_font $1 $s$it
 
 # ExtraBold/ExtraBoldItalic
-[ -f $mpf/$exb.ttf ] && find_font_ex $1 $exb $bl
-[ -f $mpf/$exb$it.ttf ] && find_font_ex $1 $exb$it $bl$it
+[ ! -f $mpf/$exb.ttf ] && find_font_ex $1 $exb $bl
+[ ! -f $mpf/$exb$it.ttf ] && find_font_ex $1 $exb$it $bl$it
 
 # ExtraLight/ExtraLightItalic
-[ -f $mpf/$exl.ttf ] && find_font_ex $1 $exl $t
-[ -f $mpf/$exl$it.ttf ] && find_font_ex $1 $exl$it $t$it
+[ ! -f $mpf/$exl.ttf ] && find_font_ex $1 $exl $t
+[ ! -f $mpf/$exl$it.ttf ] && find_font_ex $1 $exl$it $t$it
 
 
 ### Condensed Section ###
