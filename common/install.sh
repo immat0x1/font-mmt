@@ -9,51 +9,40 @@
 mpf=$MODPATH/Fonts
 device=$(getprop ro.build.product)
 evox=$(getprop ro.product.system.name)
-t=Thin
-l=Light
-r=Regular
-b=Bold
-it=Italic
-m=Medium
-bl=Black
-c=Condensed
-s=Semibold
-exl=ExtraLight
+t=Thin l=Light
+r=Regular b=Bold
+it=Italic m=Medium
+bl=Black c=Condensed
+s=Semibold exl=ExtraLight
 exb=ExtraBold
 
 # DELETE_ANOTHER_FONT_MODULES
 dafm() {
-if [ $DELETE_ANOTHER_FONT_MODULES = "true" ]; then
-find /data/adb/modules -path \*$1 | cut -d'/' -f-5 | while read line; do
+[ $DELETE_ANOTHER_FONT_MODULES = "true" ] && find /data/adb/modules -path \*$1 | cut -d'/' -f-5 | while read line; do
 ui_print " "
 ui_print "* Found conflicting module!"
 ui_print "* Deleting $line..."
-rm -rf $line; done; fi
+rm -rf $line; done
 }
 
 # All to ttf
 for otf in $mpf/*.otf; do
-[ -f "$otf" ] && mv "$otf" "${otf%otf}ttf"
-done
+[ -f "$otf" ] && mv "$otf" "${otf%otf}ttf"; done
 for woff in $mpf/*.woff; do
-[ -f "$woff" ] && mv "$woff" "${woff%woff}ttf"
-done
+[ -f "$woff" ] && mv "$woff" "${woff%woff}ttf"; done
 
 # Checking for Regular.ttf
-if [ ! -f $mpf/$r.ttf ]; then
-abort "* Required $r.ttf does not exist!"; fi
+[ ! -f $mpf/$r.ttf ] && abort "* Required $r.ttf does not exist!"
 
 # Function #1
 find_font() {
 find $1 -type f -name "*$2*" | while read line; do
-cp -ar $mpf/$2.ttf $MODPATH$line
-done
+cp -ar $mpf/$2.ttf $MODPATH$line; done
 }
 
 find_font_ex() {
 find $1 -type f -name "*$2*" | while read line; do
-cp -ar $mpf/$3.ttf $MODPATH$line
-done
+cp -ar $mpf/$3.ttf $MODPATH$line; done
 }
 
 # Function #2
@@ -61,106 +50,73 @@ main_func() {
 mkdir -p $MODPATH$1
 cd $1
 
-
 ### Non-Condensed Section ###
 
 # Regular
 if [ ! $USE_AS_REGULAR = "Regular" ] && [ -f "$mpf/$USE_AS_REGULAR.ttf" ]; then
 $2 "* You choosed $USE_AS_REGULAR instead of Regular"
 ls | while read line; do
-cp -ar $mpf/$USE_AS_REGULAR.ttf $MODPATH$1/$line
-done
+cp -ar $mpf/$USE_AS_REGULAR.ttf $MODPATH$1/$line; done
 else
 ls | while read line; do
-cp -ar $mpf/$r.ttf $MODPATH$1/$line
-done
-fi
+cp -ar $mpf/$r.ttf $MODPATH$1/$line; done; fi
 
 
 # Italic
-if [ -f $mpf/$it.ttf ]; then
-find_font $1 $it; fi
+[ -f $mpf/$it.ttf ] && find_font $1 $it
 
 # Bold/BoldItalic
-if [ -f $mpf/$b.ttf ]; then
-find_font $1 $b; fi
-if [ -f $mpf/$b$it.ttf ]; then
-find_font $1 $b$it; fi
+[ -f $mpf/$b.ttf ] && find_font $1 $b
+[ -f $mpf/$b$it.ttf ] && find_font $1 $b$it
 
 # Medium/MediumItalic
-if [ -f $mpf/$m.ttf ]; then
-find_font $1 $m; fi
-if [ -f $mpf/$m$it.ttf ]; then
-find_font $1 $m$it; fi
+[ -f $mpf/$m.ttf ] && find_font $1 $m
+[ -f $mpf/$m$it.ttf ] && find_font $1 $m$it
 
 # Black/BlackItalic
-if [ -f $mpf/$bl.ttf ]; then
-find_font $1 $bl
-find_font $1 $exb; fi
-if [ -f $mpf/$bl$it.ttf ]; then
-find_font $1 $bl$it
-find_font $1 $exb$it; fi
+[ -f $mpf/$bl.ttf ] && find_font $1 $bl; find_font $1 $exb
+[ -f $mpf/$bl$it.ttf ] && find_font $1 $bl$it; find_font $1 $exb$it
 
 # Thin/ThinItalic
-if [ -f $mpf/$t.ttf ]; then
-find_font $1 $t
-find_font $1 $exl; fi
-if [ -f $mpf/$t$it.ttf ]; then
-find_font $1 $t$it
-find_font $1 $exl$it; fi
+[ -f $mpf/$t.ttf ] && find_font $1 $t; find_font $1 $exl
+[ -f $mpf/$t$it.ttf ] && find_font $1 $t$it; find_font $1 $exl$it
 
 # Light/LightItalic
-if [ -f $mpf/$l.ttf ]; then
-find_font $1 $l; fi
-if [ -f $mpf/$l$it.ttf ]; then
-find_font $1 $l$it; fi
+[ -f $mpf/$l.ttf ] && find_font $1 $l
+[ -f $mpf/$l$it.ttf ] && find_font $1 $l$it
 
 # SemiBold/SemiBold Italic
-if [ -f $mpf/$s.ttf ]; then
-find_font $1 $s; fi
-if [ -f $mpf/$s$it.ttf ]; then
-find_font $1 $s$it; fi
+[ -f $mpf/$s.ttf ] && find_font $1 $s
+[ -f $mpf/$s$it.ttf ] && find_font $1 $s$it
 
 # ExtraBold/ExtraBoldItalic
-if [ -f $mpf/$exb.ttf ]; then
-find_font_ex $1 $exb $bl; fi
-if [ -f $mpf/$exb$it.ttf ]; then
-find_font_ex $1 $exb$it $bl$it; fi
+[ -f $mpf/$exb.ttf ] && find_font_ex $1 $exb $bl
+[ -f $mpf/$exb$it.ttf ] && find_font_ex $1 $exb$it $bl$it
 
 # ExtraLight/ExtraLightItalic
-if [ -f $mpf/$exl.ttf ]; then
-find_font_ex $1 $exl $t; fi
-if [ -f $mpf/$exl$it.ttf ]; then
-find_font_ex $1 $exl$it $t$it; fi
+[ -f $mpf/$exl.ttf ] && find_font_ex $1 $exl $t
+[ -f $mpf/$exl$it.ttf ] && find_font_ex $1 $exl$it $t$it
 
 
 ### Condensed Section ###
 
 # C-Regular Font
-if [ -f $mpf/$c-$r.ttf ]; then
-find_font $1 $c-$r; fi
+[ -f $mpf/$c-$r.ttf ] && find_font $1 $c-$r
 
 # C-Italic
-if [ -f $mpf/$c-$it.ttf ]; then
-find_font $1 $c-$it; fi
+[ -f $mpf/$c-$it.ttf ] && find_font $1 $c-$it
 
 # C-Bold/BoldItalic
-if [ -f $mpf/$c-$b.ttf ]; then
-find_font $1 $c-$b; fi
-if [ -f $mpf/$c-$b$it.ttf ]; then
-find_font $1 $c-$b$it; fi
+[ -f $mpf/$c-$b.ttf ] && find_font $1 $c-$b
+[ -f $mpf/$c-$b$it.ttf ] && find_font $1 $c-$b$it
 
 # C-Medium/MediumItalic
-if [ -f $mpf/$c-$m.ttf ]; then
-find_font $1 $c-$m; fi
-if [ -f $mpf/$c-$m$it.ttf ]; then
-find_font $1 $c-$m$it; fi
+[ -f $mpf/$c-$m.ttf ] && find_font $1 $c-$m
+[ -f $mpf/$c-$m$it.ttf ] && find_font $1 $c-$m$it
 
 # C-Light/LightItalic
-if [ -f $mpf/$c-$l.ttf ]; then
-find_font $1 $c-$l; fi
-if [ -f $mpf/$c-$l$it.ttf ]; then
-find_font $1 $c-$l$it; fi
+[ -f $mpf/$c-$l.ttf ] && find_font $1 $c-$l
+[ -f $mpf/$c-$l$it.ttf ] && find_font $1 $c-$l$it
 
 # Clean-up unnecessary
 find $MODPATH$1 -name "AndroidClock*.*" -exec rm -rf {} \;
