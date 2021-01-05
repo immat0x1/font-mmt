@@ -64,7 +64,6 @@ else
 ls | while read line; do
 cp -ar $mpf/$r.ttf $MODPATH$1/$line; done; fi
 
-
 # Italic
 [ -f $mpf/$it.ttf ] && find_font $1 $it
 
@@ -78,11 +77,15 @@ cp -ar $mpf/$r.ttf $MODPATH$1/$line; done; fi
 
 # Black/BlackItalic
 [ -f $mpf/$bl.ttf ] && find_font $1 $bl; find_font $1 $exb
-[ -f $mpf/$bl$it.ttf ] && find_font $1 $bl$it; find_font $1 $exb$it
+[ -f $mpf/$bl$it.ttf ] && find_font $1 $bl$it; find_font $1 $exb
+[ ! -f $mpf/$bl.ttf ] && [ -f $mpf/$b.ttf ] && find_font_ex $1 $bl $b
+[ ! -f $mpf/$bl$it.ttf ] && [ -f $mpf/$b$it.ttf ] && find_font_ex $1 $bl$it $b$it
 
 # Thin/ThinItalic
-[ -f $mpf/$t.ttf ] && find_font $1 $t; find_font $1 $exl
-[ -f $mpf/$t$it.ttf ] && find_font $1 $t$it; find_font $1 $exl$it
+[ -f $mpf/$t.ttf ] && find_font $1 $t
+[ -f $mpf/$t$it.ttf ] && find_font $1 $t$it
+[ ! -f $mpf/$t.ttf ] && [ -f $mpf/$exl.ttf ] && find_font_ex $1 $t $exl
+[ ! -f $mpf/$t$it.ttf ] && [ -f $mpf/$exl$it.ttf ] && find_font_ex $1 $t$it $exl$it
 
 # Light/LightItalic
 [ -f $mpf/$l.ttf ] && find_font $1 $l
@@ -93,13 +96,16 @@ cp -ar $mpf/$r.ttf $MODPATH$1/$line; done; fi
 [ -f $mpf/$s$it.ttf ] && find_font $1 $s$it
 
 # ExtraBold/ExtraBoldItalic
-[ ! -f $mpf/$exb.ttf ] && find_font_ex $1 $exb $bl
-[ ! -f $mpf/$exb$it.ttf ] && find_font_ex $1 $exb$it $bl$it
+[ -f $mpf/$exb.ttf ] && find_font $1 $exb
+[ -f $mpf/$exb$it.ttf ] && find_font $1 $exb$it
+[ ! -f $mpf/$exb.ttf ] && [ -f $mpf/$bl.ttf ] && find_font_ex $1 $exb $bl
+[ ! -f $mpf/$exb$it.ttf ] && [ -f $mpf/$bl$it.ttf ] && find_font_ex $1 $exb$it $bl$it
 
 # ExtraLight/ExtraLightItalic
-[ ! -f $mpf/$exl.ttf ] && find_font_ex $1 $exl $t
-[ ! -f $mpf/$exl$it.ttf ] && find_font_ex $1 $exl$it $t$it
-
+[ -f $mpf/$exl.ttf ] && find_font $1 $exl
+[ -f $mpf/$exl$it.ttf ] && find_font $1 $exl$it
+[ ! -f $mpf/$exl.ttf ] && [ -f $mpf/$t.ttf ] && find_font_ex $1 $exl $t
+[ ! -f $mpf/$exl$it.ttf ] && [ -f $mpf/$t$it.ttf ] && find_font_ex $1 $exl$it $t$it
 
 ### Condensed Section ###
 
