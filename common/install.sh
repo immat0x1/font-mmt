@@ -22,7 +22,9 @@ dafm() {
 ui_print " "
 ui_print "* Found conflicting module!"
 ui_print "* Deleting $line..."
-rm -rf $line; done
+rm -rf $line
+line=${line//modules/modules_update}
+[ -d $line] && rm -rf $line; done
 }
 
 # All to ttf
