@@ -57,6 +57,7 @@ if [ ! $USE_AS_REGULAR = "Regular" ] && [ -f "$mpf/$USE_AS_REGULAR.ttf" ]; then
 $2 "* You choosed $USE_AS_REGULAR instead of Regular"
 ls | while read line; do
 cp -ar $mpf/$USE_AS_REGULAR.ttf $MODPATH$1/$line; done
+[ -f "$mpf/$USE_AS_REGULAR$it.ttf" ] && find_font_ex $1 $it $USE_AS_REGULAR$it
 else
 ls | while read line; do
 cp -ar $mpf/$r.ttf $MODPATH$1/$line; done; fi
