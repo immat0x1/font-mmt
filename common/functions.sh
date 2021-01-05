@@ -108,8 +108,8 @@ prop_process() {
 # Credits
 ui_print " "
 ui_print "* MMT Extended by Zackptg5 @ XDA"
-ui_print "* Font-MMT by @immat0x1 | @aloetg"
 ui_print "* MMT-EX Version - v1.6"
+ui_print "* Font-MMT by @immat0x1 | @aloetg"
 ui_print "* F-MMT Version - v1.2"
 ui_print " "
 
