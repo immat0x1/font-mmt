@@ -142,12 +142,5 @@ rm -rf $MODPATH/ExampleFontNames
 dafm "system/fonts"
 main_func "/system/fonts" "ui_print"
 
-# Check if ROM is Evolution X
-if [ $evox = "evolution_$device" ]; then
-ui_print " "
-ui_print "* EvolutionX ROM Detected!"
-ui_print "* /system/product/fonts path added..."
-ui_print " "
-dafm "system/product/fonts"
-main_func "/system/product/fonts"
-fi
+# Check if ROM have /system/product/fonts directory
+[ -d /system/product/fonts ] && dafm "system/product/fonts" && main_func "/system/product/fonts"
