@@ -7,8 +7,6 @@
 
 # Variables
 mpf=$MODPATH/Fonts
-device=$(getprop ro.build.product)
-evox=$(getprop ro.product.system.name)
 t=Thin l=Light
 r=Regular b=Bold
 it=Italic m=Medium
