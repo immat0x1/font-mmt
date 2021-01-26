@@ -32,7 +32,7 @@ for woff in $mpf/*.woff; do
 [ -f "$woff" ] && mv "$woff" "${woff%woff}ttf"; done
 
 # Checking for Regular.ttf
-[ ! -f $mpf/$r.ttf ] && abort "* Required $r.ttf does not exist!"
+[ ! -f $mpf/$r.ttf ] && abort "* $r.ttf: not found"
 
 # Function #1
 find_font() {
@@ -62,68 +62,13 @@ else
 ls | while read line; do
 cp -ar $mpf/$r.ttf $MODPATH$1/$line; done; fi
 
-# Italic
-[ -f $mpf/$it.ttf ] && find_font $1 $it
-
-# Bold/BoldItalic
-[ -f $mpf/$b.ttf ] && find_font $1 $b
-[ -f $mpf/$b$it.ttf ] && find_font $1 $b$it
-
-# Medium/MediumItalic
-[ -f $mpf/$m.ttf ] && find_font $1 $m
-[ -f $mpf/$m$it.ttf ] && find_font $1 $m$it
-
-# Black/BlackItalic
-[ -f $mpf/$bl.ttf ] && find_font $1 $bl; find_font $1 $exb
-[ -f $mpf/$bl$it.ttf ] && find_font $1 $bl$it; find_font $1 $exb
-[ ! -f $mpf/$bl.ttf ] && [ -f $mpf/$b.ttf ] && find_font_ex $1 $bl $b
-[ ! -f $mpf/$bl$it.ttf ] && [ -f $mpf/$b$it.ttf ] && find_font_ex $1 $bl$it $b$it
-
-# Thin/ThinItalic
-[ -f $mpf/$t.ttf ] && find_font $1 $t
-[ -f $mpf/$t$it.ttf ] && find_font $1 $t$it
-[ ! -f $mpf/$t.ttf ] && [ -f $mpf/$exl.ttf ] && find_font_ex $1 $t $exl
-[ ! -f $mpf/$t$it.ttf ] && [ -f $mpf/$exl$it.ttf ] && find_font_ex $1 $t$it $exl$it
-
-# Light/LightItalic
-[ -f $mpf/$l.ttf ] && find_font $1 $l
-[ -f $mpf/$l$it.ttf ] && find_font $1 $l$it
-
-# SemiBold/SemiBold Italic
-[ -f $mpf/$s.ttf ] && find_font $1 $s
-[ -f $mpf/$s$it.ttf ] && find_font $1 $s$it
-
-# ExtraBold/ExtraBoldItalic
-[ -f $mpf/$exb.ttf ] && find_font $1 $exb
-[ -f $mpf/$exb$it.ttf ] && find_font $1 $exb$it
-[ ! -f $mpf/$exb.ttf ] && [ -f $mpf/$bl.ttf ] && find_font_ex $1 $exb $bl
-[ ! -f $mpf/$exb$it.ttf ] && [ -f $mpf/$bl$it.ttf ] && find_font_ex $1 $exb$it $bl$it
-
-# ExtraLight/ExtraLightItalic
-[ -f $mpf/$exl.ttf ] && find_font $1 $exl
-[ -f $mpf/$exl$it.ttf ] && find_font $1 $exl$it
-[ ! -f $mpf/$exl.ttf ] && [ -f $mpf/$t.ttf ] && find_font_ex $1 $exl $t
-[ ! -f $mpf/$exl$it.ttf ] && [ -f $mpf/$t$it.ttf ] && find_font_ex $1 $exl$it $t$it
+set $it $b $b$it $m $m$it $bl $bl$it $t $t$it $l $l$it $s $s$it $exb $exb$it $exl $exl$it
+for f do [ -f $mpf/$f.ttf ] && find_font $1 $f
 
 ### Condensed Section ###
 
-# C-Regular Font
-[ -f $mpf/$c-$r.ttf ] && find_font $1 $c-$r
-
-# C-Italic
-[ -f $mpf/$c-$it.ttf ] && find_font $1 $c-$it
-
-# C-Bold/BoldItalic
-[ -f $mpf/$c-$b.ttf ] && find_font $1 $c-$b
-[ -f $mpf/$c-$b$it.ttf ] && find_font $1 $c-$b$it
-
-# C-Medium/MediumItalic
-[ -f $mpf/$c-$m.ttf ] && find_font $1 $c-$m
-[ -f $mpf/$c-$m$it.ttf ] && find_font $1 $c-$m$it
-
-# C-Light/LightItalic
-[ -f $mpf/$c-$l.ttf ] && find_font $1 $c-$l
-[ -f $mpf/$c-$l$it.ttf ] && find_font $1 $c-$l$it
+set $c-$r $c-$it $c-$b $c-$b$it $c-$m $c-$m$it $c-$l $c-$l$it
+for cf do [ -f $mpf/$cf.ttf ] && find_font $1 $cf; done
 
 # Clean-up unnecessary
 set AndroidClock Noto Mono DancingScript ComingSoon CarroisGothicSC
