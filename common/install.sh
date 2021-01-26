@@ -63,7 +63,7 @@ ls | while read line; do
 cp -ar $mpf/$r.ttf $MODPATH$1/$line; done; fi
 
 set $it $b $b$it $m $m$it $bl $bl$it $t $t$it $l $l$it $s $s$it $exb $exb$it $exl $exl$it
-for f do [ -f $mpf/$f.ttf ] && find_font $1 $f
+for f do [ -f $mpf/$f.ttf ] && find_font $1 $f; done
 
 ### Condensed Section ###
 
