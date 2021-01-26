@@ -17,12 +17,10 @@ exb=ExtraBold
 # DELETE_ANOTHER_FONT_MODULES
 dafm() {
 [ $DELETE_ANOTHER_FONT_MODULES = "true" ] && find /data/adb/modules -path \*$1 | cut -d'/' -f-5 | while read line; do
-ui_print " "
-ui_print "* Found conflicting module!"
-ui_print "* Deleting $line..."
-[ ! $line = $MODPATH ] && rm -rf $line
+[ ! $line = $MODPATH ] && [ ! -f $line/NotoColorEmoji.ttf ] && rm -rf $line; ui_print " "; ui_print "* Found conflicting module!"; ui_print "* Deleting $line..."
+
 line=${line//modules/modules_update}
-[ -d $line ] && [ ! $line = $MODPATH ] && rm -rf $line; done
+[ -d $line ] && [ ! $line = $MODPATH ] && [ ! -f $line/NotoColorEmoji.ttf ] && rm -rf $line; ui_print " "; ui_print "* Found conflicting module!"; ui_print "* Deleting $line..."; done
 }
 
 # All to ttf
