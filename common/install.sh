@@ -127,7 +127,7 @@ cp -ar $mpf/$r.ttf $MODPATH$1/$line; done; fi
 
 # Clean-up unnecessary
 set AndroidClock Noto Mono DancingScript ComingSoon CarroisGothicSC
-for uf do find /sdcard/Download -name "*$uf*.*" -exec rm -rf {} \;; done
+for uf do find $MODPATH$1 -name "*$uf*.*" -exec rm -rf {} \;; done
 rm -rf $MODPATH/ExampleFontNames
 }
 
