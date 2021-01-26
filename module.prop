@@ -3,4 +3,5 @@ name=F-MMT
 version=v1.3
 versionCode=4
 author=@immat0x1 | @aloetg
-description= Extended Template for creating Font modules.
+description= Extended Template for creating Font Modules.
+fmmtVersion=v1.3

@@ -106,11 +106,12 @@ prop_process() {
 }
 
 # Credits
+FMMTVER=`grep_prop fmmtVersion $TMPDIR/module.prop`
 ui_print " "
 ui_print "* MMT Extended by Zackptg5 @ XDA"
 ui_print "* MMT-EX Version - v1.6"
 ui_print "* Font-MMT by @immat0x1 | @aloetg"
-ui_print "* F-MMT Version - v1.2"
+ui_print "* F-MMT Version - $FMMTVER"
 ui_print " "
 
 # Check for min/max api version
