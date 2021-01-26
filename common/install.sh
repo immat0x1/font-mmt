@@ -126,13 +126,8 @@ cp -ar $mpf/$r.ttf $MODPATH$1/$line; done; fi
 [ -f $mpf/$c-$l$it.ttf ] && find_font $1 $c-$l$it
 
 # Clean-up unnecessary
-find $MODPATH$1 -name "AndroidClock*.*" -exec rm -rf {} \;
-find $MODPATH$1 -name "Noto*.*" -exec rm -rf {} \;
-find $MODPATH$1 -name "*Mono*.*" -exec rm -rf {} \;
-find $MODPATH$1 -name "DancingScript*.*" -exec rm -rf {} \;
-find $MODPATH$1 -name "DroidSans*.*" -exec rm -rf {} \;
-find $MODPATH$1 -name "ComingSoon*.*" -exec rm -rf {} \;
-find $MODPATH$1 -name "CarroisGothicSC*.*" -exec rm -rf {} \;
+set AndroidClock Noto Mono DancingScript ComingSoon CarroisGothicSC
+for uf do find /sdcard/Download -name "*$uf*.*" -exec rm -rf {} \;; done
 rm -rf $MODPATH/ExampleFontNames
 }
 
