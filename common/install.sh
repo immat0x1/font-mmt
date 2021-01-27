@@ -63,9 +63,6 @@ for f in $it $b $b$it $m $m$it $bl $bl$it $t $t$it $l $l$it $s $s$it $exb $exb$i
 for cf in $c-$r $c-$it $c-$b $c-$b$it $c-$m $c-$m$it $c-$l $c-$l$it; do
 [ -f $mpf/$cf.ttf ] && find_font $1 $cf; done
 
-### Replacement of Extra fonts ###
-# WIP
-
 # Clean-up unnecessary
 for uf in AndroidClock Noto Mono DancingScript DroidSans ComingSoon CarroisGothicSC; do
 find $MODPATH$1 -name "*$uf*.*" -exec rm -rf {} \;; done
