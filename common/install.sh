@@ -16,7 +16,7 @@ exb=ExtraBold
 
 # DELETE_ANOTHER_FONT_MODULES
 dafm() {
-[ $DELETE_ANOTHER_FONT_MODULES = "true" ] && find /data/adb/modules -path \*$1 | cut -d'/' -f-5 | while read line; do
+find /data/adb/modules -path \*$1 | cut -d'/' -f-5 | while read line; do
 [ ! $line = $MODPATH ] && [ ! -f $line/system/fonts/NotoColorEmoji.ttf ] && rm -rf $line; ui_print " "; ui_print "* Found conflicting module!"; ui_print "* Deleting $line..."
 line=${line//modules/modules_update}
 [ -d $line ] && [ ! $line = $MODPATH ] && [ ! -f $line/system/fonts/NotoColorEmoji.ttf ] && rm -rf $line; ui_print " "; ui_print "* Found conflicting module!"; ui_print "* Deleting $line..."; done
@@ -46,8 +46,8 @@ mkdir -p $MODPATH$1
 cd $1
 
 # USE_AS_REGULAR
-if [ ! $USE_AS_REGULAR = "Regular" ] && [ -f "$mpf/$USE_AS_REGULAR.ttf" ]; then
-$2 "* You chose $USE_AS_REGULAR instead of Regular"
+if [ ! $USE_AS_REGULAR = "$r" ] && [ -f "$mpf/$USE_AS_REGULAR.ttf" ]; then
+$2 "* You chose $USE_AS_REGULAR instead of $r"
 ls | while read line; do
 cp -ar $mpf/$USE_AS_REGULAR.ttf $MODPATH$1/$line; done
 [ -f "$mpf/$USE_AS_REGULAR$it.ttf" ] && replace_font $1 $it $USE_AS_REGULAR$it
@@ -63,6 +63,9 @@ for f in $it $b $b$it $m $m$it $bl $bl$it $t $t$it $l $l$it $s $s$it $exb $exb$i
 for cf in $c-$r $c-$it $c-$b $c-$b$it $c-$m $c-$m$it $c-$l $c-$l$it; do
 [ -f $mpf/$cf.ttf ] && find_font $1 $cf; done
 
+### Replacement of Extra fonts ###
+# WIP
+
 # Clean-up unnecessary
 for uf in AndroidClock Noto Mono DancingScript DroidSans ComingSoon CarroisGothicSC; do
 find $MODPATH$1 -name "*$uf*.*" -exec rm -rf {} \;; done
@@ -70,7 +73,7 @@ rm -rf $MODPATH/ExampleFontNames
 }
 
 # Start
-dafm "system/fonts"
+[ $DELETE_ANOTHER_FONT_MODULES = "true" ] && dafm "system/fonts"
 main_func "/system/fonts" "ui_print"
 
 # Check if ROM have /system/product/fonts directory
