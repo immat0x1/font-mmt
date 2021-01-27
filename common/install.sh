@@ -31,7 +31,7 @@ for woff in $mpf/*.woff; do
 # Checking for Regular.ttf
 [ ! -f $mpf/$r.ttf ] && abort "* $r.ttf: not found"
 
-find_font() {
+place_font() {
 find $1 -type f -name "*$2*" | while read line; do
 cp -ar $mpf/$2.ttf $MODPATH$line; done
 }
@@ -57,11 +57,11 @@ cp -ar $mpf/$r.ttf $MODPATH$1/$line; done; fi
 
 ### Non-Condensed ###
 for f in $it $b $b$it $m $m$it $bl $bl$it $t $t$it $l $l$it $s $s$it $exb $exb$it $exl $exl$it; do
-[ -f $mpf/$f.ttf ] && find_font $1 $f; done
+[ -f $mpf/$f.ttf ] && place_font $1 $f; done
 
 ### Condensed ###
 for cf in $c-$r $c-$it $c-$b $c-$b$it $c-$m $c-$m$it $c-$l $c-$l$it; do
-[ -f $mpf/$cf.ttf ] && find_font $1 $cf; done
+[ -f $mpf/$cf.ttf ] && place_font $1 $cf; done
 
 # Clean-up unnecessary
 for uf in AndroidClock Noto Mono DancingScript DroidSans ComingSoon CarroisGothicSC; do
@@ -74,4 +74,4 @@ rm -rf $MODPATH/ExampleFontNames
 main_func "/system/fonts" "ui_print"
 
 # Check if ROM have /system/product/fonts directory
-[ -d /system/product/fonts ] && main_func "/system/product/fonts"; dafm "system/product/fonts"
+[ -d /system/product/fonts ] && main_func "/system/product/fonts"; [ $DELETE_ANOTHER_FONT_MODULES = "true" ] && dafm "system/product/fonts"
