@@ -1,7 +1,8 @@
-id=Font_MMT
+id=fmmt
 name=F-MMT
 version=v1.3
 versionCode=4
 author=@immat0x1 | @aloetg
-description= Extended Template for creating Font Modules.
+description=Extended Magisk Module Template for creating Font Modules.
+# Don't touch that
 fmmtVersion=v1.3
