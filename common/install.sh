@@ -93,7 +93,7 @@ mkdir $MODPATH/Roboto
 find $msf -type f -name "Roboto*" | while read line; do
 cp -aR $line $MODPATH/Roboto; done
 cd $MODPATH/Roboto && rm -rf *Condensed*
-for r in *; do mv "$r" $MODPATH$sf/Backup-"$a"; done
+for r in *; do mv "$r" $MODPATH$sf/Backup-"$r"; done
 
 # Clean-up $MODPATH
 rm -rf $MODPATH/Roboto $mpf $MODPATH/ExampleFontNames
