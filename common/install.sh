@@ -14,12 +14,10 @@ mxml=$(magisk --path)/.magisk/mirror/system/etc/fonts.xml
 msf=$(magisk --path)/.magisk/mirror/system/fonts
 mspf=$(magisk --path)/.magisk/mirror/system/product/fonts
 
-r=Regular it=Italic
-m=Medium b=Bold
-t=Thin l=Light
-bl=Black s=Semibold
-exl=ExtraLight exb=ExtraBold
-c=Condensed mo=Mono
+r=Regular it=Italic m=Medium
+b=Bold t=Thin l=Light
+bl=Black s=Semibold exl=ExtraLight
+exb=ExtraBold c=Condensed mo=Mono
 
 # All to ttf
 for otf in $mpf/*.otf; do
@@ -40,10 +38,6 @@ fi
 [ ! -f $mpf/$r.ttf ] && abort "* $r.ttf: Required, but not found"
 
 place_font() {
-find $1 -type f -name "*$2*" | cut -d'/' -f6- | while read line; do cp -ar $mpf/$2.ttf $MODPATH/$line; done
-}
-
-replace_font() {
 find $1 -type f -name "*$2*" | cut -d'/' -f6- | while read line; do cp -ar $mpf/$3.ttf $MODPATH/$line; done
 }
 
@@ -58,18 +52,18 @@ $3 "* You chose $USE_AS_REGULAR instead of $r"
 $3 "* "
 ls | while read line; do
 cp -ar $mpf/$USE_AS_REGULAR.ttf $MODPATH$2/$line; done
-[ -f "$mpf/$USE_AS_REGULAR$it.ttf" ] && replace_font $1 $it $USE_AS_REGULAR$it
+[ -f "$mpf/$USE_AS_REGULAR$it.ttf" ] && place_font $1 $it $USE_AS_REGULAR$it
 else
 ls | while read line; do
 cp -ar $mpf/$r.ttf $MODPATH$2/$line; done; fi
 
 ### Non-Condensed ###
 for f in $it $b $b$it $m $m$it $bl $bl$it $t $t$it $l $l$it $s $s$it $exb $exb$it $exl $exl$it $mo; do
-[ -f $mpf/$f.ttf ] && place_font $1 $f; done
+[ -f $mpf/$f.ttf ] && place_font $1 $f $f; done
 
 ### Condensed ###
 for cf in $c-$r $c-$it $c-$b $c-$b$it $c-$m $c-$m$it $c-$l $c-$l$it; do
-[ -f $mpf/$cf.ttf ] && place_font $1 $cf; done
+[ -f $mpf/$cf.ttf ] && place_font $1 $cf $cf; done
 
 # Clean-up unnecessary
 for uf in Noto DancingScript DroidSans ComingSoon CarroisGothicSC; do
