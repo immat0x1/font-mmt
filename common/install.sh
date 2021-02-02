@@ -19,11 +19,17 @@ b=Bold t=Thin l=Light
 bl=Black s=Semibold exl=ExtraLight
 exb=ExtraBold c=Condensed mo=Mono
 
+# Checking for Regular.ttf
+[ ! -f $mpf/$r.ttf ] && abort "* $r.ttf: Required, but not found"
+
+# mkdir dirs
+mkdir -p {$MODPATH/Roboto,$MODPATH$sf,$MODPATH/system/etc}
+
 # All to ttf
 for otf in $mpf/*.otf; do
-[ -f "$otf" ] && mv "$otf" "${otf%otf}ttf"; done
+mv "$otf" "${otf%otf}ttf"; done
 for woff in $mpf/*.woff; do
-[ -f "$woff" ] && mv "$woff" "${woff%woff}ttf"; done
+mv "$woff" "${woff%woff}ttf"; done
 
 # DELETE_ANOTHER_FONT_MODULES
 if [ $DELETE_ANOTHER_FONT_MODULES = "true" ]; then
@@ -34,22 +40,17 @@ line=${line//modules/modules_update}
 done
 fi
 
-# Checking for Regular.ttf
-[ ! -f $mpf/$r.ttf ] && abort "* $r.ttf: Required, but not found"
-
 place_font() {
 find $1 -type f -name "*$2*" | cut -d'/' -f6- | while read line; do cp -ar $mpf/$3.ttf $MODPATH/$line; done
 }
 
 main_func() {
-mkdir -p $MODPATH$2
-cd $1
+mkdir -p $MODPATH$2 && cd $1
 
 # USE_AS_REGULAR
 if [ ! $USE_AS_REGULAR = "$r" ] && [ -f "$mpf/$USE_AS_REGULAR.ttf" ]; then
 $3 "* "
 $3 "* You chose $USE_AS_REGULAR instead of $r"
-$3 "* "
 ls | while read line; do
 cp -ar $mpf/$USE_AS_REGULAR.ttf $MODPATH$2/$line; done
 [ -f "$mpf/$USE_AS_REGULAR$it.ttf" ] && place_font $1 $it $USE_AS_REGULAR$it
@@ -77,13 +78,12 @@ main_func "$msf" "$sf" "ui_print"
 [ -d $mspf ] && main_func "$mspf" "$spf"
 
 # Backuping Roboto for Glyph Fix
-[ -f $mxml ] && mkdir -p $MODPATH$sf && mkdir -p $MODPATH/system/etc && cp -af $mxml $MODPATH$xml
+[ -f $mxml ] && cp -af $mxml $MODPATH$xml
 sed -i '/"sans-serif">/,/family>/H;1,/family>/{/family>/G}'	$MODPATH$xml
 sed -i ':a;N;$!ba;s/ name=\"sans-serif\"/ name="backup-roboto"/2' $MODPATH$xml
 sed -i '/\"backup-roboto\">/,/family>/{s/Roboto-/Backup-Roboto-/}' $MODPATH$xml
 sed -i 's/ name="backup-roboto"//g' $MODPATH$xml
 
-mkdir $MODPATH/Roboto
 find $msf -type f -name "Roboto*" | while read line; do
 cp -aR $line $MODPATH/Roboto; done
 cd $MODPATH/Roboto && rm -rf *Condensed*
