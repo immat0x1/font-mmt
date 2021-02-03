@@ -22,8 +22,8 @@ exb=ExtraBold c=Condensed mo=Mono
 # Checking for Regular.ttf
 [ ! -f $mpf/$r.ttf ] && abort "* $r.ttf: Required, but not found"
 
-# mkdir dirs
-mkdir -p {$MODPATH/Roboto,$MODPATH$sf,$MODPATH/system/etc}
+# mkdir work dirs
+mkdir -p $MODPATH/Roboto $MODPATH/system/etc
 
 # All to ttf
 for otf in $mpf/*.otf; do
