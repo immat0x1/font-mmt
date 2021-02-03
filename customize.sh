@@ -16,9 +16,8 @@ USE_AS_REGULAR=Regular
 DELETE_ANOTHER_FONT_MODULES=false
 
 # Keep only Roboto Font Family
-# By enabling this flag you can disable the replacement
-# of other fonts leaving only Roboto font family
-# Not working on ROMs with /system/product/fonts directories
+# With this flag you can enable replacement of Roboto fonts only
+# Not working on ROMs with /system/product/fonts directory
 KEEP_ONLY_ROBOTO=false
 
 # MMT-EX Logic
