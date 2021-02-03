@@ -28,12 +28,6 @@ mv "$woff" "${woff%woff}ttf"; done
 # Checking for Regular.ttf
 [ ! -f $mpf/$r.ttf ] && abort "* $r.ttf: Required, but not found"
 
-# Experimental: Rename all fonts [MAY NOT WORK PROPERLY]
-if [ $AUTO_RENAME_FONTS = "true" ]; then
-for fn in $mo $exb$it $exb $exl$it $exl $s$it $s $b$it $b $l$it $l $bl$it $bl $t$it $t $m$it $m $it $r; do
-find $mpf -type f -name "*$c-$fn*" -exec mv {} $c-$fn.ttf \;
-find $mpf -type f -name "*$fn*" -exec mv {} $fn.ttf \;; fi
-
 # mkdir work dirs
 mkdir -p $MODPATH/Roboto $MODPATH/system/etc
 

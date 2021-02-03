@@ -20,11 +20,6 @@ DELETE_ANOTHER_FONT_MODULES=false
 # Not working on ROMs with /system/product/fonts directory
 KEEP_ONLY_ROBOTO=false
 
-# Auto Rename fonts
-# Experimental, may not work properly
-# Renaming all Shit-Roboto-Regular-GoogleSans.ttf to Regular.ttf
-AUTO_RENAME_FONTS=false
-
 # MMT-EX Logic
 SKIPUNZIP=1
 unzip -qjo "$ZIPFILE" 'common/functions.sh' -d $TMPDIR >&2
