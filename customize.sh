@@ -7,13 +7,19 @@
 
 # F-MMT Config Flags
 
-# With this flag you can choose which font will be used instead of Regular
+# Choose which font will be used instead of Regular
 # Example: USE_AS_REGULAR=Bold
 USE_AS_REGULAR=Regular
 
-# With this flag you can enable automatical removing of all other font modules during installation
+# Auto-removing of all other font modules during installation
 # Change "false" to "true" to enable this flag
 DELETE_ANOTHER_FONT_MODULES=false
+
+# Keep only Roboto Font Family
+# By enabling this flag you can disable the replacement
+# of other fonts leaving only Roboto font family
+# Not working on ROMs with /system/product/fonts directories
+KEEP_ONLY_ROBOTO=false
 
 # MMT-EX Logic
 SKIPUNZIP=1

@@ -84,10 +84,13 @@ sed -i ':a;N;$!ba;s/ name=\"sans-serif\"/ name="backup-roboto"/2' $MODPATH$xml
 sed -i '/\"backup-roboto\">/,/family>/{s/Roboto-/Backup-Roboto-/}' $MODPATH$xml
 sed -i 's/ name="backup-roboto"//g' $MODPATH$xml
 
-find $msf -type f -name "Roboto*" | while read line; do
+find $msf -type f -name "Roboto-*" | while read line; do
 cp -aR $line $MODPATH/Roboto; done
-cd $MODPATH/Roboto && rm -rf *Condensed*
+cd $MODPATH/Roboto
 for r in *; do mv "$r" $MODPATH$sf/Backup-"$r"; done
+
+# Keep only Roboto
+[ $KEEP_ONLY_ROBOTO = "true" ] && find $MODPATH$sf -type f ! -name "*Roboto*" -exec rm -rf {} \; && rm -rf $MODPATH/system/product
 
 # Clean-up $MODPATH
 rm -rf $MODPATH/Roboto $mpf $MODPATH/ExampleFontNames
