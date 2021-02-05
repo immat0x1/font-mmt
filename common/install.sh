@@ -92,5 +92,8 @@ for r in *; do mv "$r" $MODPATH$sf/Backup-"$r"; done
 # Keep only Roboto
 [ $KEEP_ONLY_ROBOTO = "true" ] && find $MODPATH$sf -type f ! -name "*Roboto*" -exec rm -rf {} \; && rm -rf $MODPATH/system/product
 
+# Emoji
+[ ! $REPLACE_EMOJI = "false" ] && [ -f $mpf/$REPLACE_EMOJI ] && mv $mpf/$REPLACE_EMOJI $MODPATH$sf/NotoColorEmoji.ttf
+
 # Clean-up $MODPATH
 rm -rf $MODPATH/Roboto $mpf $MODPATH/ExampleFontNames
