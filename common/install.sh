@@ -7,6 +7,7 @@
 
 # Variables
 mpf=$MODPATH/Fonts
+modsf=$MODPATH/system/fonts
 xml=/system/etc/fonts.xml
 sf=/system/fonts
 spf=/system/product/fonts
@@ -19,26 +20,29 @@ b=Bold t=Thin l=Light
 bl=Black s=Semibold exl=ExtraLight
 exb=ExtraBold c=Condensed mo=Mono
 
-# All to ttf
+env() {
 for otf in $mpf/*.otf; do
 mv "$otf" "${otf%otf}ttf"; done
 for woff in $mpf/*.woff; do
 mv "$woff" "${woff%woff}ttf"; done
-
-# Checking for Regular.ttf
 [ ! -f $mpf/$r.ttf ] && abort "* $r.ttf: Required, but not found"
-
-# mkdir work dirs
 mkdir -p $MODPATH/Roboto $MODPATH/system/etc
+}
 
-# DELETE_ANOTHER_FONT_MODULES
-if [ $DELETE_ANOTHER_FONT_MODULES = "true" ]; then
+dafm() {
 find /data/adb/modules -path \*system/fonts | cut -d'/' -f-5 | while read line; do
-[ ! $line = "$MODPATH" ] && [ ! -f $line$sf/NotoColorEmoji.ttf ] && [ ! -f $line$sf/NotoSansSymbols-Regular-Subsetted2.ttf ] && rm -rf $line
+[ ! $line = "$MODPATH" ] && [ ! -f "$line$sf/NotoColorEmoji.ttf" ] && [ ! -f "$line$sf/NotoSansSymbols-Regular-Subsetted2.ttf" ] && rm -rf $line
 line=${line//modules/modules_update}
 [ -d "$line" ] && [ ! $line = "$MODPATH" ] && [ ! -f "$line$sf/NotoColorEmoji.ttf" ] && [ ! -f "$line$sf/NotoSansSymbols-Regular-Subsetted2.ttf" ] && rm -rf $line
 done
-fi
+}
+
+clean_up() {
+for uf in Noto DancingScript DroidSans ComingSoon CarroisGothicSC; do
+rm -rf $modsf/*$uf*.*; done
+[ ! -f $mpf/$mo.ttf ] && rm -rf $modsf/*$mo*.*
+rm -rf $MODPATH/Roboto $mpf $MODPATH/ExampleFontNames
+}
 
 place_font() {
 find $1 -type f -name "*$2*" | cut -d'/' -f6- | while read line; do cp -ar $mpf/$3.ttf $MODPATH/$line; done
@@ -49,7 +53,6 @@ mkdir -p $MODPATH$2 && cd $1
 
 # USE_AS_REGULAR
 if [ ! $USE_AS_REGULAR = "$r" ] && [ -f "$mpf/$USE_AS_REGULAR.ttf" ]; then
-$3 "* "
 $3 "* You chose $USE_AS_REGULAR instead of $r"
 ls | while read line; do
 cp -ar $mpf/$USE_AS_REGULAR.ttf $MODPATH$2/$line; done
@@ -65,19 +68,14 @@ for f in $it $b $b$it $m $m$it $bl $bl$it $t $t$it $l $l$it $s $s$it $exb $exb$i
 ### Condensed ###
 for cf in $c-$r $c-$it $c-$b $c-$b$it $c-$m $c-$m$it $c-$l $c-$l$it; do
 [ -f $mpf/$cf.ttf ] && place_font $1 $cf $cf; done
-
-# Clean-up unnecessary
-for uf in Noto DancingScript DroidSans ComingSoon CarroisGothicSC; do
-rm -rf $MODPATH$2/*$uf*.*; done
-[ ! -f $mpf/$mo.ttf ] && rm -rf $MODPATH$2/*$mo*.*
 }
 
-# Start
-main_func "$msf" "$sf" "ui_print"
-# Check if ROM have /system/product/fonts directory
+######
+env && main_func "$msf" "$sf" "ui_print"
 [ -d $mspf ] && main_func "$mspf" "$spf"
+######
 
-# Backuping Roboto for Glyph Fix
+# Glyph Fix
 [ -f $mxml ] && cp -af $mxml $MODPATH$xml
 sed -i '/"sans-serif">/,/family>/H;1,/family>/{/family>/G}'	$MODPATH$xml
 sed -i ':a;N;$!ba;s/ name=\"sans-serif\"/ name="backup-roboto"/2' $MODPATH$xml
@@ -87,13 +85,11 @@ sed -i 's/ name="backup-roboto"//g' $MODPATH$xml
 find $msf -type f -name "Roboto-*" | while read line; do
 cp -aR $line $MODPATH/Roboto; done
 cd $MODPATH/Roboto
-for r in *; do mv "$r" $MODPATH$sf/Backup-"$r"; done
+for r in *; do mv "$r" $modsf/Backup-"$r"; done
 
-# Keep only Roboto
-[ $KEEP_ONLY_ROBOTO = "true" ] && find $MODPATH$sf -type f ! -name "*Roboto*" -exec rm -rf {} \; && rm -rf $MODPATH/system/product
+# Flags
+[ $DELETE_ANOTHER_FONT_MODULES = "true" ] && dafm
+[ $KEEP_ONLY_ROBOTO = "true" ] && find $modsf -type f ! -name "*Roboto*" -exec rm -rf {} \; && rm -rf $MODPATH/system/product
+[ ! $REPLACE_EMOJI = "false" ] && [ -f $mpf/$REPLACE_EMOJI ] && mv $mpf/$REPLACE_EMOJI $modsf/NotoColorEmoji.ttf
 
-# Emoji
-[ ! $REPLACE_EMOJI = "false" ] && [ -f $mpf/$REPLACE_EMOJI ] && mv $mpf/$REPLACE_EMOJI $MODPATH$sf/NotoColorEmoji.ttf
-
-# Clean-up $MODPATH
-rm -rf $MODPATH/Roboto $mpf $MODPATH/ExampleFontNames
+clean_up
