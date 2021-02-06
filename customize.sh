@@ -20,11 +20,6 @@ DELETE_ANOTHER_FONT_MODULES=false
 # Not working on ROMs with /system/product/fonts directory
 KEEP_ONLY_ROBOTO=false
 
-# Replace your System Emojis
-# You must put the emoji font in the fonts folder
-# Example: REPLACE_EMOJI=ios.ttf
-REPLACE_EMOJI=false
-
 # MMT-EX Logic
 SKIPUNZIP=1
 unzip -qjo "$ZIPFILE" 'common/functions.sh' -d $TMPDIR >&2
