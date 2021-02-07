@@ -33,14 +33,14 @@ done
 }
 
 clean_up() {
-for uf in Noto DancingScript DroidSans ComingSoon CarroisGothicSC; do
+for uf in DancingScript DroidSans ComingSoon CarroisGothicSC; do
 rm -rf $modsf/*$uf*.*; done
 [ ! -f $mpf/$mo.ttf ] && rm -rf $modsf/*$mo*.*
 rm -rf $mpr $mpf $MODPATH/ExampleFontNames
 }
 
 place_font() {
-find $1 -type f -name "*$2*" | cut -d'/' -f6- | while read line; do cp -ar $mpf/$3.ttf $MODPATH/$line; done
+find $1 -type f -name "*$2*" -and ! -name "*Noto" | cut -d'/' -f6- | while read line; do cp -ar $mpf/$3.ttf $MODPATH/$line; done
 }
 
 main_func() {
@@ -79,8 +79,7 @@ for r in *; do mv "$r" $modsf/Backup-"$r"; done
 if [ -f $mpf/$r.ttf ]; then
 main_func "$msf" "$sf" "ui_print"
 [ -d $mspf ] && main_func "$mspf" "$spf"
-else
-abort "* $r.ttf: Required, but not found"
+else abort "* $r.ttf: Required, but not found"
 fi
 
 # Flags
