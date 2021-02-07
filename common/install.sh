@@ -33,14 +33,14 @@ done
 }
 
 clean_up() {
-for uf in DancingScript DroidSans ComingSoon CarroisGothicSC; do
-rm -rf $modsf/*$uf*.*; done
+#for uf in DancingScript DroidSans ComingSoon CarroisGothicSC; do
+#rm -rf $modsf/*$uf*.*; done
 [ ! -f $mpf/$mo.ttf ] && rm -rf $modsf/*$mo*.*
 rm -rf $mpr $mpf $MODPATH/ExampleFontNames
 }
 
 place_font() {
-find $1 -type f -name "*$2*" -and ! -name "*Noto*" | cut -d'/' -f6- | while read line; do cp -ar $mpf/$3.ttf $MODPATH/$line; done
+find $1 -type f -name "*$2*" | grep -v "Noto\|DancingScript\|DroidSans\|ComingSoon\|CarroisGothicSC" | cut -d'/' -f6- | while read line; do cp -ar $mpf/$3.ttf $MODPATH/$line; done
 }
 
 main_func() {
@@ -49,9 +49,11 @@ mkdir -p $MODPATH$2 && cd $1
 ### USE_AS_REGULAR
 if [ ! $USE_AS_REGULAR = "$r" ] && [ -f "$mpf/$USE_AS_REGULAR.ttf" ]; then
 $3 "* $USE_AS_REGULAR.ttf will be used instead of $r.ttf"
-place_font $1 * $USE_AS_REGULAR
+ls -1 | grep -v "Noto\|DancingScript\|DroidSans\|ComingSoon\|CarroisGothicSC" | while read line; do
+cp -ar $mpf/$USE_AS_REGULAR.ttf $MODPATH$2/$line; done
 [ -f "$mpf/$USE_AS_REGULAR$it.ttf" ] && place_font $1 $it $USE_AS_REGULAR$it
-else place_font $1 * $r && place_font $1 $it $it; fi
+else ls -1 | grep -v "Noto\|DancingScript\|DroidSans\|ComingSoon\|CarroisGothicSC" | while read line; do
+cp -ar $mpf/$r.ttf $MODPATH$2/$line; done; fi
 
 ### Non-Condensed ###
 for f in $b $b$it $m $m$it $bl $bl$it $t $t$it $l $l$it $s $s$it $exb $exb$it $exl $exl$it $mo; do
