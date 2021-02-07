@@ -49,9 +49,11 @@ mkdir -p $MODPATH$2 && cd $1
 ### USE_AS_REGULAR
 if [ ! $USE_AS_REGULAR = "$r" ] && [ -f "$mpf/$USE_AS_REGULAR.ttf" ]; then
 $3 "* $USE_AS_REGULAR.ttf will be used instead of $r.ttf"
-place_font $1 $r $USE_AS_REGULAR
+ls | while read line; do
+cp -ar $mpf/$USE_AS_REGULAR.ttf $MODPATH$2/$line; done
 [ -f "$mpf/$USE_AS_REGULAR$it.ttf" ] && place_font $1 $it $USE_AS_REGULAR$it
-else place_font $1 $r $r && place_font $1 $it $it; fi
+else ls | while read line; do
+cp -ar $mpf/$r.ttf $MODPATH$2/$line; done; fi
 
 ### Non-Condensed ###
 for f in $b $b$it $m $m$it $bl $bl$it $t $t$it $l $l$it $s $s$it $exb $exb$it $exl $exl$it $mo; do
