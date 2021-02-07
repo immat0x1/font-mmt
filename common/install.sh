@@ -14,33 +14,28 @@ mxml=$(magisk --path)/.magisk/mirror/system/etc/fonts.xml
 msf=$(magisk --path)/.magisk/mirror/system/fonts
 mspf=$(magisk --path)/.magisk/mirror/system/product/fonts
 
-r=Regular it=Italic m=Medium
-b=Bold t=Thin l=Light
-bl=Black s=Semibold exl=ExtraLight
-exb=ExtraBold c=Condensed mo=Mono
+r=Regular it=Italic m=Medium b=Bold
+t=Thin l=Light bl=Black s=Semibold
+exl=ExtraLight exb=ExtraBold c=Condensed mo=Mono
 
-for otf in $mpf/*.otf; do
-mv "$otf" "${otf%otf}ttf"; done
-for woff in $mpf/*.woff; do
-mv "$woff" "${woff%woff}ttf"; done
+for otf in $mpf/*.otf; do mv "$otf" "${otf%otf}ttf"; done
+for woff in $mpf/*.woff; do mv "$woff" "${woff%woff}ttf"; done
 
 dafm() {
 find /data/adb/modules -path \*system/fonts | cut -d'/' -f-5 | while read line; do
 [ ! $line = "$MODPATH" ] && [ ! -f "$line$sf/NotoColorEmoji.ttf" ] && [ ! -f "$line$sf/NotoSansSymbols-Regular-Subsetted2.ttf" ] && rm -rf $line
 line=${line//modules/modules_update}
-[ -d "$line" ] && [ ! $line = "$MODPATH" ] && [ ! -f "$line$sf/NotoColorEmoji.ttf" ] && [ ! -f "$line$sf/NotoSansSymbols-Regular-Subsetted2.ttf" ] && rm -rf $line
-done
+[ -d "$line" ] && [ ! $line = "$MODPATH" ] && [ ! -f "$line$sf/NotoColorEmoji.ttf" ] && [ ! -f "$line$sf/NotoSansSymbols-Regular-Subsetted2.ttf" ] && rm -rf $line; done
 }
 
 clean_up() {
-#for uf in DancingScript DroidSans ComingSoon CarroisGothicSC; do
-#rm -rf $modsf/*$uf*.*; done
+for uf in Noto DancingScript DroidSans ComingSoon CarroisGothicSC; do rm -rf $modsf/*$uf*.*; done
 [ ! -f $mpf/$mo.ttf ] && rm -rf $modsf/*$mo*.*
 rm -rf $mpr $mpf $MODPATH/ExampleFontNames
 }
 
 place_font() {
-find $1 -type f -name "*$2*" | grep -v "Noto\|DancingScript\|DroidSans\|ComingSoon\|CarroisGothicSC" | cut -d'/' -f6- | while read line; do cp -ar $mpf/$3.ttf $MODPATH/$line; done
+find $1 -type f -name "*$2*" | cut -d'/' -f6- | while read line; do cp -ar $mpf/$3.ttf $MODPATH/$line; done
 }
 
 main_func() {
@@ -49,11 +44,9 @@ mkdir -p $MODPATH$2 && cd $1
 ### USE_AS_REGULAR
 if [ ! $USE_AS_REGULAR = "$r" ] && [ -f "$mpf/$USE_AS_REGULAR.ttf" ]; then
 $3 "* $USE_AS_REGULAR.ttf will be used instead of $r.ttf"
-ls -1 | grep -v "Noto\|DancingScript\|DroidSans\|ComingSoon\|CarroisGothicSC" | while read line; do
-cp -ar $mpf/$USE_AS_REGULAR.ttf $MODPATH$2/$line; done
+ls -1 | while read line; do cp -ar $mpf/$USE_AS_REGULAR.ttf $MODPATH$2/$line; done
 [ -f "$mpf/$USE_AS_REGULAR$it.ttf" ] && place_font $1 $it $USE_AS_REGULAR$it
-else ls -1 | grep -v "Noto\|DancingScript\|DroidSans\|ComingSoon\|CarroisGothicSC" | while read line; do
-cp -ar $mpf/$r.ttf $MODPATH$2/$line; done; fi
+else ls -1 | while read line; do cp -ar $mpf/$r.ttf $MODPATH$2/$line; done; fi
 
 ### Non-Condensed ###
 for f in $b $b$it $m $m$it $bl $bl$it $t $t$it $l $l$it $s $s$it $exb $exb$it $exl $exl$it $mo; do
@@ -79,8 +72,7 @@ for r in *; do mv "$r" $modsf/Backup-"$r"; done
 if [ -f $mpf/$r.ttf ]; then
 main_func "$msf" "$sf" "ui_print"
 [ -d $mspf ] && main_func "$mspf" "$spf"
-else abort "* $r.ttf: Required, but not found"
-fi
+else abort "* $r.ttf: Required, but not found"; fi
 
 # Flags
 [ $DELETE_ANOTHER_FONT_MODULES = "true" ] && dafm
