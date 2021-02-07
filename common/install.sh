@@ -66,8 +66,7 @@ sed -i '/\"backup-roboto\">/,/family>/{s/Roboto-/Backup-Roboto-/}' $MODPATH$xml
 sed -i 's/ name="backup-roboto"//g' $MODPATH$xml
 find $msf -type f -name "Roboto-*" | while read line; do
 cp -aR $line $mpr; done
-mkdir -p $mpr && cd $mpr
-for r in *; do mv "$r" $modsf/Backup-"$r"; done
+cd $mpr && for r in *; do mv "$r" $modsf/Backup-"$r"; done
 }
 
 if [ -f $mpf/$r.ttf ]; then
