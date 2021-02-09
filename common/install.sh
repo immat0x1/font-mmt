@@ -35,7 +35,7 @@ rm -rf $mpr $mpf $MODPATH/ExampleFontNames
 }
 
 place_font() {
-find $1 -type f -name "*$2*" | cut -d'/' -f6- | while read line; do cp -ar $mpf/$3.ttf $MODPATH/$line; done
+find $1 -type f -name "*$2*" | sed 's/.*\(system\)/\1/g' | while read line; do cp -ar $mpf/$3.ttf $MODPATH/$line; done
 }
 
 main_func() {
