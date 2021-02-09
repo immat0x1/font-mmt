@@ -21,16 +21,16 @@ exl=ExtraLight exb=ExtraBold c=Condensed mo=Mono
 for otf in $mpf/*.otf; do mv "$otf" "${otf%otf}ttf"; done
 for woff in $mpf/*.woff; do mv "$woff" "${woff%woff}ttf"; done
 
-dafm() {
+drafm() {
 find /data/adb/modules -path \*system/fonts | cut -d'/' -f-5 | while read line; do
-[ ! $line = "$MODPATH" ] && [ ! -f "$line$sf/NotoColorEmoji.ttf" ] && [ ! -f "$line$sf/NotoSansSymbols-Regular-Subsetted2.ttf" ] && rm -rf $line
-line=${line//modules/modules_update}
-[ -d "$line" ] && [ ! $line = "$MODPATH" ] && [ ! -f "$line$sf/NotoColorEmoji.ttf" ] && [ ! -f "$line$sf/NotoSansSymbols-Regular-Subsetted2.ttf" ] && rm -rf $line; done
+modupd=${line//modules/modules_update}
+if [ ! -f "$line$sf/NotoColorEmoji.ttf" ] && [[ "$line" != "$MODPATH" ]] && [[ "$modupd" != "$MODPATH" ]] && [ ! -f "$line$sf/NotoSansSymbols-Regular-Subsetted2.ttf" ]; then
+cd $line; rm -rf disable update remove; touch $1; chmod 644 $1; fi; done
 }
 
 clean_up() {
 for uf in Noto DancingScript DroidSans ComingSoon CarroisGothicSC; do rm -rf $modsf/*$uf*.*; done
-[ ! -f $mpf/$mo.ttf ] && rm -rf $modsf/*$mo*.*
+[ ! -f "$mpf/$mo.ttf" ] && rm -rf $modsf/*$mo*.*
 rm -rf $mpr $mpf $MODPATH/ExampleFontNames
 }
 
@@ -42,7 +42,7 @@ main_func() {
 mkdir -p $MODPATH$2 && cd $1
 
 ### USE_AS_REGULAR
-if [ ! $USE_AS_REGULAR = "$r" ] && [ -f "$mpf/$USE_AS_REGULAR.ttf" ]; then
+if [ ! "$USE_AS_REGULAR" = "$r" ] && [ -f "$mpf/$USE_AS_REGULAR.ttf" ]; then
 $3 "* $USE_AS_REGULAR.ttf will be used instead of $r.ttf"
 ls -1 | while read line; do cp -ar $mpf/$USE_AS_REGULAR.ttf $MODPATH$2/$line; done
 [ -f "$mpf/$USE_AS_REGULAR$it.ttf" ] && place_font $1 $it $USE_AS_REGULAR$it
@@ -51,15 +51,15 @@ else ls -1 | while read line; do cp -ar $mpf/$r.ttf $MODPATH$2/$line; done
 
 ### Non-Condensed ###
 for f in $b $b$it $m $m$it $bl $bl$it $t $t$it $l $l$it $s $s$it $exb $exb$it $exl $exl$it $mo; do
-[ -f $mpf/$f.ttf ] && place_font $1 $f $f; done
+[ -f "$mpf/$f.ttf" ] && place_font $1 $f $f; done
 
 ### Condensed ###
 for cf in $c-$b $c-$b$it $c-$m $c-$m$it $c-$l $c-$l$it; do
-[ -f $mpf/$cf.ttf ] && place_font $1 $cf $cf; done
+[ -f "$mpf/$cf.ttf" ] && place_font $1 $cf $cf; done
 }
 
 b_roboto() {
-[ -f $mxml ] && mkdir -p $MODPATH/system/etc $mpr && cp -af $mxml $MODPATH$xml
+[ -f "$mxml" ] && mkdir -p $MODPATH/system/etc $mpr && cp -af $mxml $MODPATH$xml
 sed -i '/"sans-serif">/,/family>/H;1,/family>/{/family>/G}'	$MODPATH$xml
 sed -i ':a;N;$!ba;s/ name=\"sans-serif\"/ name="backup-roboto"/2' $MODPATH$xml
 sed -i '/\"backup-roboto\">/,/family>/{s/Roboto-/Backup-Roboto-/}' $MODPATH$xml
@@ -69,13 +69,16 @@ cp -aR $line $mpr; done
 cd $mpr && for r in *; do mv "$r" $modsf/Backup-"$r"; done
 }
 
-if [ -f $mpf/$r.ttf ]; then
+if [ -f "$mpf/$r.ttf" ]; then
 main_func "$msf" "$sf" "ui_print"
-[ -d $mspf ] && main_func "$mspf" "$spf"
+[ -d "$mspf" ] && main_func "$mspf" "$spf"
 else abort "* $r.ttf: Required, but not found"; fi
 
 # Flags
-[ $DELETE_ANOTHER_FONT_MODULES = "true" ] && dafm
-[ $KEEP_ONLY_ROBOTO = "true" ] && find $modsf -type f ! -name "*Roboto*" -exec rm -rf {} \; && rm -rf $MODPATH/system/product
+if [ "$DAFM" = "true" ] && [ "$RAFM" = "true" ]; then
+export DAFM=false RAFM=false; fi
+[ "$RAFM" = "true" ] && drafm remove
+[ "$DAFM" = "true" ] && drafm disable
+[ "$KEEP_ONLY_ROBOTO" = "true" ] && find $modsf -type f ! -name "*Roboto*" -exec rm -rf {} \; && rm -rf $MODPATH/system/product
 
 b_roboto && clean_up
