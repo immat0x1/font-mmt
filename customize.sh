@@ -23,6 +23,9 @@ DAFM=false
 # Not working on ROMs with /system/product/fonts directory
 KEEP_ONLY_ROBOTO=false
 
+# Add font weight in Module Name
+# Example: GoogleSans Medium
+WEIGHT_IN_MODNAME=true
 
 # MMT-EX Logic
 SKIPUNZIP=1

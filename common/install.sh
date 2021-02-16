@@ -13,6 +13,7 @@ modsf=$MODPATH/system/fonts
 mxml=$(magisk --path)/.magisk/mirror/system/etc/fonts.xml
 msf=$(magisk --path)/.magisk/mirror/system/fonts
 mspf=$(magisk --path)/.magisk/mirror/system/product/fonts
+name=$(grep_prop name $MODPATH/module.prop)
 
 r=Regular it=Italic m=Medium b=Bold
 t=Thin l=Light bl=Black s=Semibold
@@ -80,5 +81,6 @@ export DAFM=false RAFM=false; fi
 [ "$RAFM" = "true" ] && drafm remove
 [ "$DAFM" = "true" ] && drafm disable
 [ "$KEEP_ONLY_ROBOTO" = "true" ] && find $modsf -type f ! -name "*Roboto*" -exec rm -rf {} \; && rm -rf $MODPATH/system/product
+[ "$WEIGHT_IN_MODNAME" = "true" ] && sed -i "s/name=$name/name=$name $USE_AS_REGULAR/g" $MODPATH/module.prop
 
 b_roboto && clean_up
