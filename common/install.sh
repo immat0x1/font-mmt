@@ -22,7 +22,7 @@ UAR=$(echo $UAR | tr 'A-Z' 'a-z')
 find $mpf -type f -name '*.*' -exec sh -c 'mv "$1" "${1%.*}.ttf"' sh_mv {} \;
 
 # Fonts to lowercase
-for i in `ls $mpf`; do  new_name=$(echo "$i" | tr 'A-Z' 'a-z')
+cd $mpf && for i in `ls`; do  new_name=$(echo "$i" | tr 'A-Z' 'a-z')
 mv "$i" "Font-$new_name"; mv "Font-$new_name" "$new_name"; done
 
 drafm() {
