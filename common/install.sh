@@ -16,7 +16,7 @@ mspf=$(magisk --path)/.magisk/mirror/system/product/fonts
 name=$(grep_prop name $MODPATH/module.prop)
 
 r=Regular it=Italic m=Medium b=Bold
-t=Thin l=Light bl=Black s=Semibold
+t=Thin l=Light bl=Black s=SemiBold
 exl=ExtraLight exb=ExtraBold c=Condensed mo=Mono
 
 for otf in $mpf/*.otf; do mv "$otf" "${otf%otf}ttf"; done
