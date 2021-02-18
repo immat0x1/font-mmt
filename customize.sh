@@ -1,27 +1,22 @@
-# MMT-EX Config Flags
-
-# MINAPI=21
-# MAXAPI=25
-# DYNLIB=false
-# DEBUG=false
-
 # F-MMT Config Flags
 
+# USE_AS_REGULAR
 # Choose which font will be used instead of Regular
-# Example: USE_AS_REGULAR=Bold
-USE_AS_REGULAR=Regular
+# Example: UAR=Bold
+UAR=Regular
 
 # Auto-removing/disabling of all other font modules during installation
 # Change "false" to "true" to enable this flag
 # Remove Another Font Modules
 RAFM=false
+
 # Disable Another Font Modules
 DAFM=false
 
-# Keep only Roboto Font Family
+# Replace only Roboto Font Family
 # With this flag you can enable replacement of Roboto fonts only
 # Not working on ROMs with /system/product/fonts directory
-KEEP_ONLY_ROBOTO=false
+REPLACE_ONLY_ROBOTO=false
 
 # Add font weight in Module Name
 # Example: GoogleSans Medium
