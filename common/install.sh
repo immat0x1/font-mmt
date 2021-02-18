@@ -16,7 +16,7 @@ l=light bl=black s=semi$b exl=extra$l
 exb=extra$b c=condensed mo=mono
 
 name=$(grep_prop name $MODPATH/module.prop)
-UAR=$(echo $UAR | tr 'A-Z' 'a-z')
+UAR=$(echo $USE_AS_REGULAR | tr 'A-Z' 'a-z')
 
 # Fonts to ttf 
 find $mpf -type f -iname '*.*' -exec sh -c 'mv "$1" "${1%.*}.ttf"' sh_mv {} \;
@@ -66,7 +66,7 @@ else abort "* $r.ttf: Not found"; fi
 [ "$RAFM" = "true" ] && drafm remove
 [ "$DAFM" = "true" ] && drafm disable
 [ "$REPLACE_ONLY_ROBOTO" = "true" ] && find $modsf -type f ! -name "*Roboto*" -exec rm -rf {} \; && rm -rf $MODPATH/system/product
-[ "$WEIGHT_IN_MODNAME" = "true" ] && sed -i "s/name=$name/name=$name $UAR/g" $MODPATH/module.prop
+[ "$WEIGHT_IN_MODNAME" = "true" ] && sed -i "s/name=$name/name=$name $USE_AS_REGULAR/g" $MODPATH/module.prop
 
 # Backup Roboto
 [ -f "$mxml" ] && mkdir -p $MODPATH/system/etc $mpr && cp -af $mxml $MODPATH$xml

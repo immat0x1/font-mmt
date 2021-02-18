@@ -3,7 +3,7 @@
 # USE_AS_REGULAR
 # Choose which font will be used instead of Regular
 # Example: UAR=Bold
-UAR=Regular
+USE_AS_REGULAR=Regular
 
 # Auto-removing/disabling of all other font modules during installation
 # Change "false" to "true" to enable this flag
