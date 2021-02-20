@@ -16,7 +16,7 @@ mspf=$mp$spf
 
 r=regular it=italic m=medium b=bold t=thin
 l=light bl=black s=semi$b exl=extra$l
-exb=extra$b c=condensed mo=mono
+exb=extra$b c=condensed
 
 # Fonts to ttf 
 find $mpf -type f -iname '*.*' -exec sh -c 'mv "$1" "${1%.*}.ttf"' sh_mv {} \;
@@ -48,7 +48,7 @@ else ls -1 | while read line; do cp -ar $mpf/$r.ttf $MODPATH$2/$line; done
 [ -f "$mpf/$it.ttf" ] && place_font $1 $it $it; fi
 
 # Non-Condensed
-for f in $b $b$it $m $m$it $bl $bl$it $t $t$it $l $l$it $s $s$it $exb $exb$it $exl $exl$it $mo; do
+for f in $b $b$it $m $m$it $bl $bl$it $t $t$it $l $l$it $s $s$it $exb $exb$it $exl $exl$it; do
 [ -f "$mpf/$f.ttf" ] && place_font $1 $f $f; done
 
 # Condensed
@@ -79,6 +79,5 @@ cp -aR $line $mpr; done
 cd $mpr && for rob in *; do mv "$rob" $modsf/Backup-"$rob"; done
 
 # Clean-up
-for uf in Noto DancingScript DroidSans ComingSoon CarroisGothicSC; do rm -rf $modsf/*$uf*.*; done
-[ ! -f "$mpf/$mo.ttf" ] && rm -rf $modsf/*Mono*
+for uf in Noto Mono DancingScript DroidSans ComingSoon CarroisGothicSC; do rm -rf $modsf/*$uf*.*; done
 rm -rf $mpr $mpf $MODPATH/ExampleFontNames
