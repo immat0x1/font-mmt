@@ -1,22 +1,22 @@
 #!/bin/sh
 # Font-MMT by @immat0x1 | @aloetg
 # Based on MMT-EX by @Zackptg5
+mp=$(magisk --path)/.magisk/mirror
 xml=/system/etc/fonts.xml
 sf=/system/fonts
 spf=/system/product/fonts
 mpf=$MODPATH/Fonts
 mpr=$MODPATH/Roboto
-modsf=$MODPATH/system/fonts
-mp=$(magisk --path)/.magisk/mirror
+name=$(grep_prop name $MODPATH/module.prop)
+UAR=$(echo $USE_AS_REGULAR | tr 'A-Z' 'a-z')
+modsf=$MODPATH$sf
 mxml=$mp$xml
 msf=$mp$sf
 mspf=$mp$spf
+
 r=regular it=italic m=medium b=bold t=thin
 l=light bl=black s=semi$b exl=extra$l
 exb=extra$b c=condensed mo=mono
-
-name=$(grep_prop name $MODPATH/module.prop)
-UAR=$(echo $USE_AS_REGULAR | tr 'A-Z' 'a-z')
 
 # Fonts to ttf 
 find $mpf -type f -iname '*.*' -exec sh -c 'mv "$1" "${1%.*}.ttf"' sh_mv {} \;
@@ -59,7 +59,7 @@ for cf in $c-$b $c-$b$it $c-$m $c-$m$it $c-$l $c-$l$it; do
 if [ -f "$mpf/$r.ttf" ]; then
 main_func "$msf" "$sf" "ui_print"
 [ -d "$mspf" ] && main_func "$mspf" "$spf"
-else abort "* $r.ttf: Not found"; fi
+else abort "* Regular.ttf: Not found"; fi
 
 # Flags
 [ "$DAFM" = "true" ] && [ "$RAFM" = "true" ] && export DAFM=false RAFM=false
@@ -76,9 +76,9 @@ sed -i '/\"backup-roboto\">/,/family>/{s/Roboto-/Backup-Roboto-/}' $MODPATH$xml
 sed -i 's/ name="backup-roboto"//g' $MODPATH$xml
 find $msf -type f -name "Roboto-*" | while read line; do
 cp -aR $line $mpr; done
-cd $mpr && for r in *; do mv "$r" $modsf/Backup-"$r"; done
+cd $mpr && for rob in *; do mv "$rob" $modsf/Backup-"$rob"; done
 
 # Clean-up
 for uf in Noto DancingScript DroidSans ComingSoon CarroisGothicSC; do rm -rf $modsf/*$uf*.*; done
-[ ! -f "$mpf/$mo.ttf" ] && rm -rf $modsf/*$mo*.*
+[ ! -f "$mpf/$mo.ttf" ] && rm -rf $modsf/*Mono*
 rm -rf $mpr $mpf $MODPATH/ExampleFontNames
