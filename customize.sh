@@ -5,14 +5,6 @@
 # Example: UAR=Bold
 USE_AS_REGULAR=Regular
 
-# Auto-removing/disabling of all other font modules during installation
-# Change "false" to "true" to enable this flag
-# Remove Another Font Modules
-RAFM=false
-
-# Disable Another Font Modules
-DAFM=false
-
 # Replace only Roboto Font Family
 # With this flag you can enable replacement of Roboto fonts only
 # Not working on ROMs with /system/product/fonts directory

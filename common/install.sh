@@ -16,7 +16,7 @@ mspf=$mp$spf
 
 r=regular it=italic m=medium b=bold t=thin
 l=light bl=black s=semi$b exl=extra$l
-exb=extra$b c=condensed
+exb=extra$b c=condensed mo=mono
 
 # Fonts to lowercase
 cd $mpf && for i in `ls`; do new_name=$(echo "$i" | tr 'A-Z' 'a-z')
@@ -24,13 +24,6 @@ mv "$i" "Font-$new_name"; mv "Font-$new_name" "$new_name"; done
 
 # Fonts to ttf 
 find . -type f -name '*' -exec sh -c 'mv "$1" "${1%.*}.ttf"' sh_mv {} \;
-
-drafm() {
-find /data/adb/modules -path \*system/fonts | cut -d'/' -f-5 | while read line; do
-modupd=${line//modules/modules_update}
-if [ ! -f "$line$sf/NotoColorEmoji.ttf" ] && [[ "$line" != "$MODPATH" ]] && [[ "$modupd" != "$MODPATH" ]] && [ ! -f "$line$sf/NotoSansSymbols-Regular-Subsetted2.ttf" ]; then
-cd $line; rm -rf disable update remove; touch $1; chmod 644 $1; fi; done
-}
 
 place_font() {
 find $1 -type f -iname "*$2*" | sed 's/.*\(system\)/\1/g' | while read line; do cp -ar $mpf/$3.ttf $MODPATH/$line; done
@@ -57,9 +50,6 @@ main_func "$msf" "$sf" "ui_print"
 else abort "* Regular.ttf: Not found"; fi
 
 # Flags
-[ "$DAFM" = "true" ] && [ "$RAFM" = "true" ] && export DAFM=false RAFM=false
-[ "$RAFM" = "true" ] && drafm remove
-[ "$DAFM" = "true" ] && drafm disable
 [ "$REPLACE_ONLY_ROBOTO" = "true" ] && find $modsf -type f ! -name "*Roboto*" -exec rm -rf {} \; && rm -rf $MODPATH/system/product
 [ "$WEIGHT_IN_MODNAME" = "true" ] && sed -i "s/name=$name/name=$name $USE_AS_REGULAR/g" $MODPATH/module.prop
 
@@ -73,6 +63,6 @@ find $msf -type f -name "Roboto-*" | while read line; do
 cp -aR $line $mpr; done
 cd $mpr && for rob in *; do mv "$rob" $modsf/Backup-"$rob"; done
 
-# Clean-up
 for uf in Noto Mono DancingScript DroidSans ComingSoon CarroisGothicSC; do rm -rf $modsf/*$uf*.*; done
+[ -f $mpf/$mo.ttf ] && place_font $msf $mo $mo
 rm -rf $mpr $mpf $MODPATH/ExampleFontNames
