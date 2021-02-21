@@ -18,12 +18,12 @@ r=regular it=italic m=medium b=bold t=thin
 l=light bl=black s=semi$b exl=extra$l
 exb=extra$b c=condensed
 
-# Fonts to ttf 
-find $mpf -type f -iname '*.*' -exec sh -c 'mv "$1" "${1%.*}.ttf"' sh_mv {} \;
-
 # Fonts to lowercase
 cd $mpf && for i in `ls`; do new_name=$(echo "$i" | tr 'A-Z' 'a-z')
 mv "$i" "Font-$new_name"; mv "Font-$new_name" "$new_name"; done
+
+# Fonts to ttf 
+find . -type f -name '*' -exec sh -c 'mv "$1" "${1%.*}.ttf"' sh_mv {} \;
 
 drafm() {
 find /data/adb/modules -path \*system/fonts | cut -d'/' -f-5 | while read line; do
@@ -39,7 +39,6 @@ find $1 -type f -iname "*$2*" | sed 's/.*\(system\)/\1/g' | while read line; do 
 main_func() {
 mkdir -p $MODPATH$2 && cd $1
 
-# UAR
 if [ ! "$UAR" = "$r" ] && [ -f "$mpf/$UAR.ttf" ]; then
 $3 "* $UAR.ttf will be used instead of $r.ttf"
 ls -1 | while read line; do cp -ar $mpf/$UAR.ttf $MODPATH$2/$line; done
@@ -47,13 +46,9 @@ ls -1 | while read line; do cp -ar $mpf/$UAR.ttf $MODPATH$2/$line; done
 else ls -1 | while read line; do cp -ar $mpf/$r.ttf $MODPATH$2/$line; done
 [ -f "$mpf/$it.ttf" ] && place_font $1 $it $it; fi
 
-# Non-Condensed
-for f in $b $b$it $m $m$it $bl $bl$it $t $t$it $l $l$it $s $s$it $exb $exb$it $exl $exl$it; do
+for f in $b $b$it $m $m$it $bl $bl$it $t $t$it $l $l$it $s $s$it $exb $exb$it $exl $exl$it \
+$c-$b $c-$b$it $c-$m $c-$m$it $c-$l $c-$l$it; do
 [ -f "$mpf/$f.ttf" ] && place_font $1 $f $f; done
-
-# Condensed
-for cf in $c-$b $c-$b$it $c-$m $c-$m$it $c-$l $c-$l$it; do
-[ -f "$mpf/$cf.ttf" ] && place_font $1 $cf $cf; done
 }
 
 if [ -f "$mpf/$r.ttf" ]; then
