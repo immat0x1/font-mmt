@@ -34,14 +34,14 @@ main_func() {
 mkdir -p $MODPATH$2 && cd $1
 
 if [ ! "$UAR" = "$r" ] && [ -f "$mpf/$UAR.ttf" ]; then
-$3 "* $UAR.ttf will be used instead of $r.ttf"
+$3 "* $USE_AS_REGULAR will be used instead of $r"
 ls -1 | while read line; do cp -ar $mpf/$UAR.ttf $MODPATH$2/$line; done
 [ -f "$mpf/$UAR$it.ttf" ] && place_font $1 $it $UAR$it
 else ls -1 | while read line; do cp -ar $mpf/$r.ttf $MODPATH$2/$line; done
 [ -f "$mpf/$it.ttf" ] && place_font $1 $it $it; fi
 
 for f in $b $b$it $m $m$it $bl $bl$it $t $t$it $l $l$it $s $s$it $exb $exb$it $exl $exl$it \
-$c-$b $c-$b$it $c-$m $c-$m$it $c-$l $c-$l$it; do
+$c-$r $c-$it $c-$b $c-$b$it $c-$m $c-$m$it $c-$l $c-$l$it; do
 [ -f "$mpf/$f.ttf" ] && place_font $1 $f $f; done
 }
 
