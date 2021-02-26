@@ -12,7 +12,7 @@ REPLACE_ONLY_ROBOTO=false
 
 # Add font weight in Module Name
 # Example: GoogleSans Medium
-WEIGHT_IN_MODNAME=true
+WEIGHT_IN_VERSION=true
 
 # MMT-EX Logic
 SKIPUNZIP=1

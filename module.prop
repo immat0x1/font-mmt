@@ -1,7 +1,7 @@
 id=FMMT
 name=FMMT
-version=v1.8
-versionCode=12
+version=v1.81
+versionCode=14
 author=@immat0x1 | @aloetg
 description=Extended Magisk Module Template for creating Font Modules.
-fmmtVersion=v1.8
+fmmtVersion=v1.81

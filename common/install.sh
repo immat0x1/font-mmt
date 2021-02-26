@@ -7,8 +7,6 @@ sf=/system/fonts
 spf=/system/product/fonts
 mpf=$MODPATH/Fonts
 mpr=$MODPATH/Roboto
-name=$(grep_prop name $MODPATH/module.prop)
-UAR=$(echo $USE_AS_REGULAR | tr 'A-Z' 'a-z')
 modsf=$MODPATH$sf
 mxml=$mp$xml
 msf=$mp$sf
@@ -17,6 +15,9 @@ mspf=$mp$spf
 r=regular it=italic m=medium b=bold t=thin
 l=light bl=black s=semi$b exl=extra$l
 exb=extra$b c=condensed mo=mono
+
+ver=$(grep_prop version $MODPATH/module.prop)
+UAR=$(echo $USE_AS_REGULAR | tr 'A-Z' 'a-z')
 
 # Fonts to lowercase
 cd $mpf && for i in `ls`; do new_name=$(echo "$i" | tr 'A-Z' 'a-z')
@@ -51,7 +52,7 @@ else abort "* Regular.ttf: Not found"; fi
 
 # Flags
 [ "$REPLACE_ONLY_ROBOTO" = "true" ] && find $modsf -type f ! -name "*Roboto*" -exec rm -rf {} \; && rm -rf $MODPATH/system/product
-[ "$WEIGHT_IN_MODNAME" = "true" ] && sed -i "s/name=$name/name=$name $USE_AS_REGULAR/g" $MODPATH/module.prop
+[ "$WEIGHT_IN_VERSION" = "true" ] && sed -i "s/version=$ver/version=$ver-$USE_AS_REGULAR/g" $MODPATH/module.prop
 
 # Backup Roboto
 [ -f "$mxml" ] && mkdir -p $MODPATH/system/etc $mpr && cp -af $mxml $MODPATH$xml
