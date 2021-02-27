@@ -1,18 +1,19 @@
-# F-MMT Config Flags
+# F-MMT Vars
+mp=$(magisk --path)/.magisk/mirror
+xml=/system/etc/fonts.xml
+sf=/system/fonts
+spf=/system/product/fonts
+mpf=$MODPATH/Fonts
+mpr=$MODPATH/Roboto
+modsf=$MODPATH$sf
+mxml=$mp$xml
+msf=$mp$sf
+mspf=$mp$spf
 
-# USE_AS_REGULAR
-# Choose which font will be used instead of Regular
-# Example: UAR=Bold
-USE_AS_REGULAR=Regular
+r=regular it=italic m=medium b=bold t=thin
+l=light bl=black s=semi$b exl=extra$l
+exb=extra$b c=condensed
 
-# Replace only Roboto Font Family
-# With this flag you can enable replacement of Roboto fonts only
-# Not working on ROMs with /system/product/fonts directory
-REPLACE_ONLY_ROBOTO=false
-
-# Add font weight in Module Name
-# Example: GoogleSans Medium
-WEIGHT_IN_VERSION=true
 
 # MMT-EX Logic
 SKIPUNZIP=1
