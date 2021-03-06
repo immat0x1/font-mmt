@@ -10,8 +10,8 @@ USE_AS_REGULAR=Regular
 # Not working on ROMs with /system/product/fonts directory
 REPLACE_ONLY_ROBOTO=false
 
-# Add font weight in Module Name
-# Example: GoogleSans Medium
+# Add font weight in Module Version
+# Example: v1.9-Medium
 WEIGHT_IN_VERSION=true
 
 # MMT-EX Logic
