@@ -20,9 +20,8 @@ UAR=$(echo $USE_AS_REGULAR | tr 'A-Z' 'a-z')
  
 # Fonts to lowercase and ttf
 cd $mpf && for i in `ls`; do
-n=`echo "$i" | tr a-z A-Z`
-mv "$i" f-$n && mv f-$n $n
-mv "$n" "${n%.*}.ttf"
+n=$(echo "$i" | tr 'A-Z' 'a-z')
+mv "$i" "f-$n" && mv "f-$n" "${n%.*}.ttf"
 done
 
 place_font() {
