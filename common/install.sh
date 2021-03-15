@@ -19,7 +19,7 @@ VER=$(grep_prop version $MODPATH/module.prop)
 UAR=$(echo $USE_AS_REGULAR | tr 'A-Z' 'a-z')
  
 cd $mpf && for i in `ls`; do
-mv $i `echo $i | tr 'A-Z' 'a-z' | cut -f 1 -d '.')`; done
+mv $i `echo $i | tr 'A-Z' 'a-z' | cut -f 1 -d '.'`; done
 
 place_font() {
 find $1 -type f -iname "*$2*" | sed 's/.*\(system\)/\1/g' | while read line; do cp $mpf/$3 $MODPATH/$line; done
