@@ -14,6 +14,11 @@ REPLACE_ONLY_ROBOTO=false
 # Example: v1.9-Medium
 WEIGHT_IN_VERSION=true
 
+# Use this if something not working and I asked you for logs
+# Don't forget to tap 'Save' button after installation
+# Log will be saved in /sdcard/Download/magisk_install_log...
+DEBUG=false
+
 # MMT-EX Logic
 SKIPUNZIP=1
 unzip -qjo "$ZIPFILE" 'common/functions.sh' -d $TMPDIR >&2
