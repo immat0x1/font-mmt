@@ -2,8 +2,15 @@
 
 # USE_AS_REGULAR
 # Choose which font will be used instead of Regular
-# Example: UAR=Bold
+# After changing this flag, it is advisable to change
+# the weight of the Medium font to a thicker one (using UAM)
+# Example: USE_AS_REGULAR=Medium
 USE_AS_REGULAR=Regular
+
+# USE_AS_MEDIUM
+# Choose which font will be used instead of Medium
+# Example: USE_AS_MEDIUM=Bold
+USE_AS_MEDIUM=Medium
 
 # Replace only Roboto Font Family
 # With this flag you can enable replacement of Roboto fonts only

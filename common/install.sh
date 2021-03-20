@@ -1,5 +1,5 @@
 #!/bin/sh
-# Font-MMT by @immat0x1 | @aloetg
+# Font-MMT by @immat0x1 | @aloe_fonts
 # Based on MMT-EX by @Zackptg5
 mp=$(magisk --path)/.magisk/mirror
 xml=/system/etc/fonts.xml
@@ -17,7 +17,8 @@ exb=extra$b c=condensed mo=mono
 
 VER=$(grep_prop version $MODPATH/module.prop)
 UAR=$(echo $USE_AS_REGULAR | tr 'A-Z' 'a-z')
- 
+UAM=$(echo $USE_AS_MEDIUM | tr 'A-Z' 'a-z')
+
 cd $mpf && for i in `ls`; do
 mv $i `echo $i | tr 'A-Z' 'a-z' | cut -f 1 -d '.'`; done
 
@@ -29,12 +30,16 @@ main() {
 mkdir -p $MODPATH$2 && cd $1
 
 if [ ! "$UAR" = "$r" ] && [ -f "$mpf/$UAR" ]; then
-ls -1 | while read line; do cp $mpf/$UAR $MODPATH$2/$line; done
+ls | while read line; do cp $mpf/$UAR $MODPATH$2/$line; done
 [ -f "$mpf/$UAR$it" ] && place_font $1 $it $UAR$it
-else ls -1 | while read line; do cp $mpf/$r $MODPATH$2/$line; done
+else ls | while read line; do cp $mpf/$r $MODPATH$2/$line; done
 [ -f "$mpf/$it" ] && place_font $1 $it $it; fi
 
-for f in $b $b$it $m $m$it $bl $bl$it $t $t$it $l $l$it $s $s$it $exb $exb$it $exl $exl$it \
+if [ ! "$UAM" = "$m" ] && [ -f "$mpf/$UAM" ]; then
+place_font $1 $m $UAM; [ -f "$mpf/$UAM$it" ] && place_font $1 $it $UAM$it
+else place_font $1 $m $m; [ -f "$mpf/$it" ] && place_font $1 $m$it $m$it; fi
+
+for f in $b $b$it $bl $bl$it $t $t$it $l $l$it $s $s$it $exb $exb$it $exl $exl$it \
 $c-$r $c-$it $c-$b $c-$b$it $c-$m $c-$m$it $c-$l $c-$l$it; do
 [ -f "$mpf/$f" ] && place_font $1 $f $f; done
 }
@@ -58,6 +63,6 @@ cd $msf && for r in `ls Roboto-*`; do
 cp $r $MODPATH$sf/Backup-$r; done;
 else abort "* fonts.xml: Not found";fi
 
-for uf in Noto Mono DancingScript DroidSans ComingSoon CarroisGothicSC; do rm -rf $modsf/*$uf*.*; done
-[ -f $mpf/$mo ] && place_font $msf $mo $mo
+for uf in Noto Mono DancingScript DroidSans ComingSoon CarroisGothicSC; do rm -rf $modsf/*$uf*; done
+[ -f "$mpf/$mo" ] && place_font $msf $mo $mo
 rm -rf $mpf $MODPATH/ExampleFontNames
