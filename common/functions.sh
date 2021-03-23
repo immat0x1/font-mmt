@@ -107,9 +107,13 @@ prop_process() {
 
 # Credits
 FMMTVER=`grep_prop fmmtVersion $TMPDIR/module.prop`
+FMMTW=`grep_prop USE_AS_REGULAR $MODPATH/customize.sh` 
+FMMTHW=`grep_prop USE_AS_MEDIUM $MODPATH/customize.sh`
 ui_print " "
 ui_print "* MMT-EX v1.6 by Zackptg5"
 ui_print "* F-MMT $FMMTVER by @immat0x1 | @aloetg"
+ui_print "* Weight: $FMMTW"
+ui_print "* Headline weight: $FMMTHW"
 ui_print " "
 
 # Check for min/max api version
