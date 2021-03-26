@@ -36,7 +36,7 @@ else ls | while read line; do cp $mpf/$r $MODPATH$2/$line; done
 [ -f "$mpf/$it" ] && place_font $1 $it $it; fi
 
 if [ ! "$UAM" = "$m" ] && [ -f "$mpf/$UAM" ]; then
-place_font $1 $m $UAM; [ -f "$mpf/$UAM$it" ] && place_font $1 $it $UAM$it
+place_font $1 $m $UAM; [ -f "$mpf/$UAM$it" ] && place_font $1 $m$it $UAM$it
 else place_font $1 $m $m; [ -f "$mpf/$it" ] && place_font $1 $m$it $m$it; fi
 
 for f in $b $b$it $bl $bl$it $t $t$it $l $l$it $s $s$it $exb $exb$it $exl $exl$it \
