@@ -12,10 +12,15 @@ USE_AS_REGULAR=Regular
 # Example: USE_AS_MEDIUM=Bold
 USE_AS_MEDIUM=Medium
 
-# Replace only Roboto Font Family
-# With this flag you can enable replacement of Roboto fonts only
-# Not working on ROMs with /system/product/fonts directory
-REPLACE_ONLY_ROBOTO=false
+# Replace only <smth> font family
+# With this flag you can enable replacement of <smth> fonts only
+# Supported: all
+# Example: REPLACE_ONLY=FluidSans
+REPLACE_ONLY=false
+
+# Replace only in <smth> directory
+# Supported: /system/fonts, /system/product/fonts
+REPLACE_ONLY_IN=false
 
 # Add font weight in Module Version
 # Example: v1.9-Medium

@@ -1,5 +1,5 @@
 #!/bin/sh
-# Font-MMT by @immat0x1 | @aloe_fonts
+# Font-MMT by @immat0x1 | @AloeFonts
 # Based on MMT-EX by @Zackptg5
 mp=$(magisk --path)/.magisk/mirror
 xml=/system/etc/fonts.xml
@@ -7,6 +7,7 @@ sf=/system/fonts
 spf=/system/product/fonts
 mpf=$MODPATH/fonts
 modsf=$MODPATH$sf
+modspf=$MODPATH$spf
 mxml=$mp$xml
 msf=$mp$sf
 mspf=$mp$spf
@@ -49,8 +50,10 @@ if [ -f "$mpf/$r" ]; then main "$msf" "$sf"
 else abort "* Regular: Not found"; fi
 
 # Flags
-[ "$REPLACE_ONLY_ROBOTO" = "true" ] && find $modsf -type f ! -name "*Roboto*" -exec rm -rf {} \; && rm -rf $MODPATH/system/product
+[ ! "$REPLACE_ONLY" = "false" ] && find $modsf $modspf -type f ! -iname "*$REPLACE_ONLY*" -exec rm -rf {} \;
 [ "$WEIGHT_IN_VERSION" = "true" ] && sed -i "s/version=$VER/version=$VER-$USE_AS_REGULAR/g" $MODPATH/module.prop
+if [ "$REPLACE_ONLY_IN" = "$sf" ]; then rm -rf $modspf
+elif [ "$REPLACE_ONLY_IN" = "$spf" ]; then rm -rf $modsf; fi
 
 # Backup Roboto
 if [ -f "$mxml" ]; then
