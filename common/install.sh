@@ -82,7 +82,7 @@ for uf in Noto Mono DancingScript DroidSans ComingSoon CarroisGothicSC; do
     rm -rf $modsf/*$uf*
 done
 [ -f "$mpf/$mo" ] && place_font $msf $mo $mo
-rm -rf $mpf $MODPATH/ExampleFontNames
+rm -rf $mpf $MODPATH/example
 
 [ ! "$REPLACE_ONLY" = "false" ] && find $modsf $modspf -type f ! -iname "*$REPLACE_ONLY*" -exec rm -rf {} \;
 [ "$WEIGHT_IN_VERSION" = "true" ] && sed -i "s/version=$VER/version=$VER-$USE_AS_REGULAR/g" $MODPATH/module.prop
