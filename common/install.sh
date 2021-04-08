@@ -65,14 +65,6 @@ else
     abort "* Regular: Not found"
 fi
 
-[ ! "$REPLACE_ONLY" = "false" ] && find $modsf $modspf -type f ! -iname "*$REPLACE_ONLY*" -exec rm -rf {} \;
-[ "$WEIGHT_IN_VERSION" = "true" ] && sed -i "s/version=$VER/version=$VER-$USE_AS_REGULAR/g" $MODPATH/module.prop
-if [ "$REPLACE_ONLY_IN" = "$sf" ]; then
-    rm -rf $modspf
-elif [ "$REPLACE_ONLY_IN" = "$spf" ]; then
-    rm -rf $modsf
-fi
-
 if [ -f "$mxml" ]; then
     mkdir -p $MODPATH/system/etc && cp $mxml $MODPATH$xml
     sed -i '/"sans-serif">/,/family>/H;1,/family>/{/family>/G}'	$MODPATH$xml
@@ -91,3 +83,12 @@ for uf in Noto Mono DancingScript DroidSans ComingSoon CarroisGothicSC; do
 done
 [ -f "$mpf/$mo" ] && place_font $msf $mo $mo
 rm -rf $mpf $MODPATH/ExampleFontNames
+
+[ ! "$REPLACE_ONLY" = "false" ] && find $modsf $modspf -type f ! -iname "*$REPLACE_ONLY*" -exec rm -rf {} \;
+[ "$WEIGHT_IN_VERSION" = "true" ] && sed -i "s/version=$VER/version=$VER-$USE_AS_REGULAR/g" $MODPATH/module.prop
+if [ "$REPLACE_ONLY_IN" = "$sf" ]; then
+    rm -rf $modspf
+elif [ "$REPLACE_ONLY_IN" = "$spf" ]; then
+    rm -rf $modsf
+    rm -rf $MODPATH/system/etc
+fi
