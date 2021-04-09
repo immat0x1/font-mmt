@@ -8,9 +8,6 @@ spf=/system/product/fonts
 mpf=$MODPATH/fonts
 modsf=$MODPATH$sf
 modspf=$MODPATH$spf
-mxml=$mp$xml
-msf=$mp$sf
-mspf=$mp$spf
 
 r=regular it=italic m=medium b=bold t=thin
 l=light bl=black s=semi$b exl=extra$l
@@ -21,6 +18,7 @@ UAR=$(echo $USE_AS_REGULAR | tr 'A-Z' 'a-z')
 UAM=$(echo $USE_AS_MEDIUM | tr 'A-Z' 'a-z')
 
 cd $mpf
+
 for i in `ls`; do
     mv $i `echo $i | tr 'A-Z' 'a-z' | cut -f 1 -d '.'`
 done
@@ -47,9 +45,11 @@ main() {
     fi
 
     if [ ! "$UAM" = "$m" ] && [ -f "$mpf/$UAM" ]; then
-        place_font $1 $m $UAM; [ -f "$mpf/$UAM$it" ] && place_font $1 $m$it $UAM$it
+        place_font $1 $m $UAM
+        [ -f "$mpf/$UAM$it" ] && place_font $1 $m$it $UAM$it
     else
-        place_font $1 $m $m; [ -f "$mpf/$it" ] && place_font $1 $m$it $m$it
+        place_font $1 $m $m
+        [ -f "$mpf/$it" ] && place_font $1 $m$it $m$it
     fi
 
     for f in $b $b$it $bl $bl$it $t $t$it $l $l$it $s $s$it $exb $exb$it $exl $exl$it \
@@ -59,36 +59,50 @@ main() {
 }
 
 if [ -f "$mpf/$r" ]; then
-    main "$msf" "$sf"
-    [ -d "$mspf" ] && main "$mspf" "$spf"
+    main "$mp$sf" "$sf"
+    if [ -d "$mp$spf" ]; then
+        main "$mp$spf" "$spf"
+    fi
 else
     abort "* Regular: Not found"
 fi
 
-if [ -f "$mxml" ]; then
-    mkdir -p $MODPATH/system/etc && cp $mxml $MODPATH$xml
+if [ -f "$mp$xml" ]; then
+    mkdir -p $MODPATH/system/etc && cp $mp$xml $MODPATH$xml
     sed -i '/"sans-serif">/,/family>/H;1,/family>/{/family>/G}'	$MODPATH$xml
     sed -i ':a;N;$!ba;s/ name=\"sans-serif\"/ name="backup-roboto"/2' $MODPATH$xml
     sed -i '/\"backup-roboto\">/,/family>/{s/Roboto-/Backup-Roboto-/}' $MODPATH$xml
     sed -i 's/ name="backup-roboto"//g' $MODPATH$xml
-    cd $msf && for r in `ls Roboto-*`; do
+    cd $mp$sf && for r in `ls Roboto-*`; do
         cp $r $MODPATH$sf/Backup-$r
     done
 else
     abort "* fonts.xml: Not found"
 fi
 
-for uf in Noto Mono DancingScript DroidSans ComingSoon CarroisGothicSC; do
+for uf in Noto DancingScript DroidSans Mono ComingSoon CarroisGothicSC; do
     rm -rf $modsf/*$uf*
 done
-[ -f "$mpf/$mo" ] && place_font $msf $mo $mo
-rm -rf $mpf $MODPATH/example
 
-[ ! "$REPLACE_ONLY" = "false" ] && find $modsf $modspf -type f ! -iname "*$REPLACE_ONLY*" -exec rm -rf {} \;
-[ "$WEIGHT_IN_VERSION" = "true" ] && sed -i "s/version=$VER/version=$VER-$USE_AS_REGULAR/g" $MODPATH/module.prop
+if [ -f "$mpf/$mo" ]; then
+    place_font $mp$sf $mo $mo
+fi
+
+if [ ! "$REPLACE_ONLY" = "false" ]; then
+    find $modsf $modspf -type f ! -iname "*$REPLACE_ONLY*" -exec rm -rf {} \;
+    re=`find $modsf $modspf -iname "*$REPLACE_ONLY*" | head -n 1`
+    if [ "${re%/*}" = "$modsf" ]; then
+        rm -rf $modspf
+    elif [ "${re%/*}" = "$modspf" ]; then
+        rm -rf $modsf $MODPATH/system/etc
+    fi
+fi
+
 if [ "$REPLACE_ONLY_IN" = "$sf" ]; then
     rm -rf $modspf
 elif [ "$REPLACE_ONLY_IN" = "$spf" ]; then
-    rm -rf $modsf
-    rm -rf $MODPATH/system/etc
+    rm -rf $modsf $MODPATH/system/etc
 fi
+
+[ "$WEIGHT_IN_VERSION" = "true" ] && sed -i "s/version=$VER/version=$VER-$USE_AS_REGULAR/g" $MODPATH/module.prop
+rm -rf $mpf $MODPATH/example
