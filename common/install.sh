@@ -49,7 +49,7 @@ main() {
         [ -f "$mpf/$UAM$it" ] && place_font $1 $m$it $UAM$it
     else
         place_font $1 $m $m
-        [ -f "$mpf/$it" ] && place_font $1 $m$it $m$it
+        [ -f "$mpf/$m$it" ] && place_font $1 $m$it $m$it
     fi
 
     for f in $b $b$it $bl $bl$it $t $t$it $l $l$it $s $s$it $exb $exb$it $exl $exl$it \
@@ -98,11 +98,23 @@ if [ ! "$REPLACE_ONLY" = "false" ]; then
     fi
 fi
 
+if [ "$HEADLINES" = "false" ]; then
+    for f in $b $bl $s $m; do
+        find $modsf $modspf -iname "*$f*" -exec rm -rf {} \;
+    done
+fi
+
+if [ "$TEXT" = "false" ]; then
+    for f in Regular -$it $l $t; do
+        find $modsf $modspf -iname "*$f*" -exec rm -rf {} \;
+    done
+fi
+
 if [ "$REPLACE_ONLY_IN" = "$sf" ]; then
     rm -rf $modspf
 elif [ "$REPLACE_ONLY_IN" = "$spf" ]; then
     rm -rf $modsf $MODPATH/system/etc
 fi
 
-[ "$WEIGHT_IN_VERSION" = "true" ] && sed -i "s/version=$VER/version=$VER-$USE_AS_REGULAR/g" $MODPATH/module.prop
+sed -i "s/version=$VER/version=$VER-$USE_AS_REGULAR/g" $MODPATH/module.prop
 rm -rf $mpf $MODPATH/example
