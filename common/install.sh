@@ -80,7 +80,7 @@ else
     abort "* fonts.xml: Not found"
 fi
 
-for uf in Noto DancingScript DroidSans Mono ComingSoon CarroisGothicSC; do
+for uf in Noto DancingScript DroidSans Mono ComingSoon CarroisGothicSC Emoji; do
     rm -rf $modsf/*$uf*
 done
 
